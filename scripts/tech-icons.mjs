@@ -1,5 +1,6 @@
 // Copies the tech logos used in the Skills section from the devicon package
-// into public/tech/<name>.svg. Run after changing the list: node scripts/tech-icons.mjs
+// into public/tech/<name>.svg. devicon is not a dependency (it upsets npm ci on Linux):
+// run `npm i --no-save devicon && node scripts/tech-icons.mjs` after changing the list.
 import { copyFile, mkdir } from 'node:fs/promises';
 
 const icons = {
