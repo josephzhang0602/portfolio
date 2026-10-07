@@ -43,7 +43,7 @@ export const codemind = {
     },
   ],
   pipeline: [
-    { icon: 'search', title: 'Collect', note: '40+ sources · ATS APIs, scrapers, Apify' },
+    { icon: 'search', title: 'Collect', note: '40+ sources · ATS APIs & job boards' },
     { icon: 'layers', title: 'Dedupe', note: 'multi-city merge · direct employer link' },
     { icon: 'spark', title: 'Enrich', note: 'nano batch → mini · strict schema' },
     { icon: 'filter', title: 'Score', note: 'verdicts + verified quotes · code weights' },
