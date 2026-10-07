@@ -89,7 +89,7 @@ export const skills = [
   },
   {
     group: 'Backend',
-    logos: [['Node.js', 'nodejs'], ['Express', 'express'], ['.NET', 'dotnet'], ['FastAPI', 'fastapi'], ['Django', 'django'], ['GraphQL', 'graphql']],
+    logos: [['Node.js', 'nodejs'], ['Express', 'express'], ['Java', 'java'], ['.NET', 'dotnet'], ['FastAPI', 'fastapi'], ['Django', 'django'], ['GraphQL', 'graphql']],
     more: ['REST APIs', 'Background jobs', 'Async processing'],
   },
   {
