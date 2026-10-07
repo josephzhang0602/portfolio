@@ -3,7 +3,8 @@ import '../styles/global.css';
 import Icon from '../components/Icon.astro';
 import { site } from '../data/site.js';
 
-const { title = `${site.name}: ${site.role}` } = Astro.props;
+const { title = `${site.name}: ${site.role}`, description = site.description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, site.url).href;
 const links = [
   ['AI work', '/#ai'],
   ['CodeMind', '/#codemind'],
@@ -18,14 +19,14 @@ const links = [
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
-    <meta name="description" content={site.description} />
+    <meta name="description" content={description} />
     <meta property="og:title" content={title} />
-    <meta property="og:description" content={site.description} />
+    <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={site.url} />
+    <meta property="og:url" content={canonical} />
     <meta property="og:image" content={`${site.url}/og.png`} />
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="canonical" href={site.url} />
+    <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -48,6 +49,12 @@ const links = [
           {links.map(([label, href]) => <a href={href}>{label}</a>)}
         </nav>
         <div class="nav-actions">
+          {site.github && (
+            <a href={site.github} target="_blank" rel="noopener" class="theme-toggle" aria-label="GitHub"><Icon name="github" size={17} /></a>
+          )}
+          {site.linkedin && (
+            <a href={site.linkedin} target="_blank" rel="noopener" class="theme-toggle" aria-label="LinkedIn"><Icon name="linkedin" size={16} /></a>
+          )}
           <button class="theme-toggle" id="theme-toggle" aria-label="Toggle color theme">
             <span class="i-sun"><Icon name="sun" size={18} /></span>
             <span class="i-moon"><Icon name="moon" size={18} /></span>
@@ -91,6 +98,38 @@ const links = [
       );
       document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 
+      // Count numbers up when they scroll into view (8+, 4M+, ~5,000, $0.0005)
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const countUp = (el: HTMLElement) => {
+        const m = (el.dataset.count || '').match(/^([^d]*)([d,.]+)(.*)$/);
+        if (!m || reduce) return;
+        const [, pre, num, post] = m;
+        const target = parseFloat(num.replace(/,/g, ''));
+        const decimals = (num.split('.')[1] || '').length;
+        const commas = num.includes(',');
+        const start = performance.now();
+        const step = (t: number) => {
+          const p = Math.min(1, (t - start) / 1400);
+          const v = target * (1 - Math.pow(1 - p, 3));
+          const s = commas ? Math.round(v).toLocaleString('en-US') : v.toFixed(decimals);
+          el.textContent = pre + s + post;
+          if (p < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      };
+      const counter = new IntersectionObserver((entries) => entries.forEach((e) => {
+        if (e.isIntersecting) { countUp(e.target as HTMLElement); counter.unobserve(e.target); }
+      }), { threshold: 0.6 });
+      document.querySelectorAll<HTMLElement>('[data-count]').forEach((el) => counter.observe(el));
+
+      // Highlight the menu item for the section in view
+      const navLinks = [...document.querySelectorAll<HTMLAnchorElement>('.nav-links a')];
+      const spy = new IntersectionObserver((entries) => entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        navLinks.forEach((a) => a.classList.toggle('active', a.hash === '#' + e.target.id));
+      }), { rootMargin: '-45% 0px -50% 0px' });
+      navLinks.forEach((a) => { const s = a.hash && document.getElementById(a.hash.slice(1)); if (s) spy.observe(s); });
+
       // Pointer spotlight
       document.addEventListener('pointermove', (e) => {
         const card = (e.target as Element).closest?.('.spot') as HTMLElement | null;
@@ -121,6 +160,8 @@ const links = [
       .nav-links { display: flex; gap: 4px; }
       .nav-links a { padding: 8px 14px; border-radius: 999px; font-size: 14px; color: var(--muted); transition: color 0.2s, background 0.2s; }
       .nav-links a:hover { color: var(--text); background: var(--surface-2); }
+      .nav-links a.active { color: var(--text); background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--border); }
+      a.theme-toggle { color: var(--text); }
       .nav-actions { display: flex; align-items: center; gap: 8px; }
       .nav-cta { height: 38px; padding: 0 16px; font-size: 14px; }
       .theme-toggle {

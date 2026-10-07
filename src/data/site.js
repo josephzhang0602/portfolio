@@ -8,7 +8,7 @@ export const site = {
   appStore: 'https://apps.apple.com/us/developer/jiafu-zhang/id717622923',
   codemind: 'https://jobs.codemind.site',
   linkedin: '',
-  github: '',
+  github: 'https://github.com/josephzhang0602',
   // Put the PDF at public/resume.pdf, then set this to '/resume.pdf'.
   resume: '',
   description:
@@ -26,6 +26,8 @@ export const experience = [
   {
     role: 'Senior Software Engineer / AI Engineer',
     company: 'First Orion',
+    mark: 'FO',
+    highlight: 'AI for caller identity, reputation scoring and spam detection on high-volume telecom data',
     place: 'North Little Rock, AR',
     period: 'Oct 2019 — Present',
     points: [
@@ -39,6 +41,8 @@ export const experience = [
   {
     role: 'Software Consultant',
     company: 'Fast Enterprises',
+    mark: 'FE',
+    highlight: 'Fraud-scoring models that flag anomalous tax returns for investigation',
     place: 'Centennial, CO',
     period: 'Jan 2018 — Oct 2019',
     points: [
@@ -51,6 +55,8 @@ export const experience = [
   {
     role: 'Software Engineering Intern',
     company: 'ArcBest Technologies',
+    mark: 'AB',
+    highlight: 'Internal tools and automation for business teams',
     place: 'Fort Smith, AR',
     period: 'May 2016 — Aug 2016',
     points: ['Built C# applications and database workflows for internal teams, with unit tests and documentation.'],
@@ -64,29 +70,41 @@ export const education = {
   period: '2015 — 2017',
 };
 
+// Logo tiles use public/tech/<icon>.svg (scripts/tech-icons.mjs); no icon shows initials.
 export const skills = [
   {
     group: 'AI / ML',
-    items: ['OpenAI API', 'LangChain', 'LangGraph', 'RAG', 'AI agents', 'Tool calling', 'Structured outputs', 'Embeddings', 'Vector search', 'Hugging Face', 'PyTorch', 'Eval harnesses'],
+    logos: [['OpenAI'], ['LangChain'], ['LangGraph'], ['Hugging Face'], ['PyTorch', 'pytorch'], ['TensorFlow', 'tensorflow']],
+    more: ['RAG', 'AI agents', 'Tool calling', 'Structured outputs', 'Embeddings', 'Vector search', 'Evals'],
+  },
+  {
+    group: 'Languages',
+    logos: [['Python', 'python'], ['TypeScript', 'typescript'], ['JavaScript', 'javascript'], ['Java', 'java'], ['C#', 'csharp'], ['Swift', 'swift'], ['Kotlin', 'kotlin']],
+    more: [],
   },
   {
     group: 'Frontend',
-    items: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Vite', 'Chrome extensions'],
+    logos: [['React', 'react'], ['Next.js', 'nextjs'], ['Tailwind', 'tailwind'], ['Vite', 'vite']],
+    more: ['Chrome extensions', 'Responsive UI'],
   },
   {
     group: 'Backend',
-    items: ['Node.js', 'Express', 'Python', 'FastAPI', 'Django', 'REST', 'GraphQL', 'Background jobs'],
+    logos: [['Node.js', 'nodejs'], ['Express', 'express'], ['.NET', 'dotnet'], ['FastAPI', 'fastapi'], ['Django', 'django'], ['GraphQL', 'graphql']],
+    more: ['REST APIs', 'Background jobs', 'Async processing'],
   },
   {
     group: 'Mobile',
-    items: ['Swift', 'SwiftUI', 'UIKit', 'React Native', 'Kotlin', 'Jetpack Compose', 'In-app purchases', 'App Store Connect'],
+    logos: [['iOS', 'apple'], ['Xcode', 'xcode'], ['React Native', 'react'], ['Android', 'android']],
+    more: ['SwiftUI', 'UIKit', 'Jetpack Compose', 'In-app purchases', 'App Store Connect'],
   },
   {
     group: 'Data',
-    items: ['PostgreSQL', 'MongoDB', 'Redis', 'pgvector', 'FAISS', 'SQL Server', 'Firebase'],
+    logos: [['PostgreSQL', 'postgresql'], ['MongoDB', 'mongodb'], ['Redis', 'redis'], ['MySQL', 'mysql'], ['SQL Server', 'sqlserver'], ['Firebase', 'firebase']],
+    more: ['pgvector', 'FAISS'],
   },
   {
-    group: 'Cloud & Ops',
-    items: ['AWS', 'GCP', 'Azure', 'Render', 'Cloudflare', 'Docker', 'GitHub Actions', 'Sentry'],
+    group: 'Cloud & DevOps',
+    logos: [['AWS', 'aws'], ['Google Cloud', 'gcp'], ['Azure', 'azure'], ['Docker', 'docker'], ['GitHub Actions', 'githubactions'], ['Cloudflare', 'cloudflare'], ['Linux', 'linux']],
+    more: ['CI/CD', 'Sentry', 'Render'],
   },
 ];

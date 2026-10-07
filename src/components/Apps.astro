@@ -26,6 +26,12 @@ const since = Math.min(...apps.map((a) => Number(a.released?.slice(0, 4)) || 999
     <div class="featured">
       {featuredApps.map((a, i) => (
         <a href={a.url} target="_blank" rel="noopener" class="feat card spot reveal" data-delay={String(i % 3)}>
+          {a.screenshot && (
+            <div class="feat-shot" aria-hidden="true">
+              <img src={a.screenshot} alt="" width="460" height="818" loading="lazy" />
+            </div>
+          )}
+          <div class="feat-body">
           <div class="feat-top">
             <img src={a.icon} alt="" width="72" height="72" loading="lazy" class="feat-icon" />
             <div class="feat-meta">
@@ -45,6 +51,7 @@ const since = Math.min(...apps.map((a) => Number(a.released?.slice(0, 4)) || 999
             </span>
             <span class="go"><Icon name="arrow" size={16} /></span>
           </div>
+          </div>
         </a>
       ))}
     </div>
@@ -60,7 +67,19 @@ const since = Math.min(...apps.map((a) => Number(a.released?.slice(0, 4)) || 999
   .store { margin-bottom: 56px; flex-shrink: 0; }
 
   .featured { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .feat { padding: 24px; display: flex; flex-direction: column; gap: 18px; transition: transform 0.25s, border-color 0.25s; }
+  .feat { display: flex; flex-direction: column; transition: transform 0.25s, border-color 0.25s; }
+  .feat-body { padding: 22px 24px 24px; display: flex; flex-direction: column; gap: 16px; flex: 1; }
+  .feat-shot {
+    position: relative; height: 210px; margin: 10px 10px 0; border-radius: 12px; overflow: hidden;
+    display: flex; justify-content: center; align-items: flex-start; padding-top: 22px;
+    background: radial-gradient(90% 80% at 50% 100%, var(--accent-soft), transparent 70%), var(--surface-2);
+    border: 1px solid var(--border);
+  }
+  .feat-shot img {
+    width: 54%; height: auto; border-radius: 14px; box-shadow: var(--shadow-lg);
+    transition: transform 0.4s cubic-bezier(.2,.7,.2,1);
+  }
+  .feat:hover .feat-shot img { transform: translateY(-14px) scale(1.02); }
   .feat:hover { transform: translateY(-3px); border-color: var(--border-strong); }
   .feat-top { display: flex; gap: 16px; align-items: center; }
   .feat-icon { width: 72px; height: 72px; border-radius: 22.5%; border: 1px solid var(--border); box-shadow: var(--shadow); flex-shrink: 0; }
@@ -94,7 +113,9 @@ const since = Math.min(...apps.map((a) => Number(a.released?.slice(0, 4)) || 999
   @media (max-width: 640px) {
     .featured { grid-template-columns: 1fr; gap: 12px; }
     .feat:nth-child(n + 5) { display: none; }
-    .feat { padding: 18px; gap: 14px; }
+    .feat-body { padding: 18px; gap: 14px; }
+    .feat-shot { height: 170px; }
+    .feat-shot img { width: 46%; }
     .feat-icon { width: 60px; height: 60px; }
     .feat-blurb { font-size: 14px; }
     .feat-foot { padding-top: 12px; }

@@ -1,0 +1,65 @@
+---
+import Icon from './Icon.astro';
+import { reviews } from '../data/reviews.js';
+import { totalRatings } from '../data/apps.js';
+---
+<section class="reviews" aria-labelledby="reviews-title">
+  <div class="container">
+    <div class="rev-head reveal">
+      <div>
+        <span class="eyebrow">What users say</span>
+        <h2 id="reviews-title">Real reviews from <span class="serif grad">real users</span>.</h2>
+      </div>
+      <p class="rev-sum">
+        <span class="stars">{[1, 2, 3, 4, 5].map(() => <Icon name="star" size={16} />)}</span>
+        {totalRatings.toLocaleString('en-US')}+ App Store ratings
+      </p>
+    </div>
+  </div>
+
+  <div class="rev-rail reveal" tabindex="0" aria-label="App Store reviews">
+    <div class="rev-track">
+      {[...reviews, ...reviews].map((r, i) => (
+        <figure class="rev card" aria-hidden={i >= reviews.length ? 'true' : undefined}>
+          <span class="rev-stars">{[1, 2, 3, 4, 5].map(() => <Icon name="star" size={13} />)}</span>
+          <blockquote>
+            <b>{r.title}</b>
+            <p>“{r.text}”</p>
+          </blockquote>
+          <figcaption>
+            <img src={r.app.icon} alt="" width="28" height="28" loading="lazy" />
+            <span>App Store review · {r.app.name.split(/ [-:–] /)[0]}</span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .reviews { padding-top: 40px; }
+  .rev-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; margin-bottom: 36px; }
+  .rev-head h2 { font-size: clamp(28px, 3.6vw, 40px); margin-top: 12px; }
+  .rev-sum { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 15px; }
+  .stars, .rev-stars { display: inline-flex; gap: 2px; color: var(--star); }
+
+  .rev-rail {
+    overflow: hidden; padding: 8px 0 16px;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  }
+  .rev-track { display: flex; gap: 16px; width: max-content; animation: slide 70s linear infinite; padding-left: 16px; }
+  .rev-rail:hover .rev-track, .rev-rail:focus-within .rev-track { animation-play-state: paused; }
+  @keyframes slide { to { transform: translateX(calc(-50% - 8px)); } }
+
+  .rev { width: 360px; margin: 0; padding: 22px 24px; display: flex; flex-direction: column; gap: 14px; }
+  blockquote { margin: 0; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  blockquote b { font-size: 16px; letter-spacing: -0.01em; }
+  blockquote p { color: var(--muted); font-size: 14.5px; line-height: 1.6; }
+  figcaption { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--faint); padding-top: 14px; border-top: 1px solid var(--border); }
+  figcaption img { width: 28px; height: 28px; border-radius: 22.5%; border: 1px solid var(--border); }
+
+  @media (max-width: 640px) {
+    .rev { width: 290px; padding: 18px 20px; }
+  }
+</style>

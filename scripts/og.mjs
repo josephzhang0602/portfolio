@@ -8,6 +8,7 @@ const apps = JSON.parse(await readFile(new URL('src/data/apps.json', root), 'utf
 const icon = async (id) =>
   'data:image/png;base64,' + (await readFile(new URL(`public/apps/${id}.png`, root))).toString('base64');
 const icons = await Promise.all(apps.map((a) => icon(a.id)));
+const photo = 'data:image/jpeg;base64,' + (await readFile(new URL('public/me-avatar.jpg', root))).toString('base64');
 
 const html = `<!doctype html><html><head>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&family=Instrument+Serif:ital@1&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
@@ -18,9 +19,10 @@ const html = `<!doctype html><html><head>
     radial-gradient(45% 60% at 78% 35%, rgba(99,102,241,.32), transparent 70%),
     radial-gradient(40% 55% at 20% 85%, rgba(20,184,166,.18), transparent 70%); }
   .copy { position: absolute; left: 72px; top: 76px; width: 640px; }
+  .photo { width: 84px; height: 84px; border-radius: 50%; border: 3px solid rgba(255,255,255,.14); box-shadow: 0 10px 30px -10px rgba(99,102,241,.6); }
   .mark { width: 56px; height: 56px; border-radius: 16px; display: grid; place-items: center; font-weight: 700; font-size: 20px;
     background: linear-gradient(135deg, #4b52e0, #0e9f8e); }
-  .eyebrow { margin-top: 44px; font-family: 'JetBrains Mono', monospace; font-size: 18px; letter-spacing: .08em; text-transform: uppercase; color: #8b93ff; }
+  .eyebrow { margin-top: 28px; font-family: 'JetBrains Mono', monospace; font-size: 18px; letter-spacing: .08em; text-transform: uppercase; color: #8b93ff; }
   h1 { margin-top: 14px; font-size: 76px; font-weight: 600; letter-spacing: -.035em; line-height: 1; }
   .tag { margin-top: 26px; font-size: 34px; line-height: 1.25; letter-spacing: -.02em; color: #c9cdd8; }
   .serif { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 1.12em;
@@ -35,7 +37,7 @@ const html = `<!doctype html><html><head>
   <div class="glow"></div>
   <div class="wall">${[...icons, ...icons.slice(0, 3)].map((s) => `<img src="${s}">`).join('')}</div>
   <div class="copy">
-    <div class="mark">JZ</div>
+    <img class="photo" src="${photo}">
     <div class="eyebrow">Senior Full-Stack / AI Engineer</div>
     <h1>Joseph Zhang</h1>
     <p class="tag">I build <span class="serif">AI products</span> that ship, from LLM pipelines to apps with 4M+ installs.</p>

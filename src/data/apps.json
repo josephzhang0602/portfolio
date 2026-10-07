@@ -9,7 +9,8 @@
     "url": "https://apps.apple.com/us/app/%E7%94%9F%E8%AF%8D%E6%9C%AC-%E6%99%BA%E8%83%BD%E8%83%8C%E8%AF%B5%E6%8F%90%E9%86%92/id1120027237",
     "released": "2016-06-04",
     "blurb": "可能是查单词速度最快的 app，记录的单词会永远保存，支持标签管理、模糊搜索，致力于打造最极致的单词知识库软件。",
-    "icon": "/apps/1120027237.png"
+    "icon": "/apps/1120027237.png",
+    "screenshot": "/apps/shots/1120027237.jpg"
   },
   {
     "id": 1388842081,
@@ -21,7 +22,8 @@
     "url": "https://apps.apple.com/us/app/flash-cards-flashcards-maker/id1388842081",
     "released": "2018-06-23",
     "blurb": "Remembering things just became much easier.",
-    "icon": "/apps/1388842081.png"
+    "icon": "/apps/1388842081.png",
+    "screenshot": "/apps/shots/1388842081.jpg"
   },
   {
     "id": 1626767582,
@@ -33,7 +35,8 @@
     "url": "https://apps.apple.com/us/app/text-to-speech-voice-reader/id1626767582",
     "released": "2022-06-01",
     "blurb": "With the Text Reader app turn your text into lifelike synthesized speech.",
-    "icon": "/apps/1626767582.png"
+    "icon": "/apps/1626767582.png",
+    "screenshot": "/apps/shots/1626767582.jpg"
   },
   {
     "id": 6749887847,
@@ -45,7 +48,8 @@
     "url": "https://apps.apple.com/us/app/photo-to-video-ai-video-maker/id6749887847",
     "released": "2025-08-14",
     "blurb": "CREATE AMAZING VIDEOS FROM YOUR PHOTOS",
-    "icon": "/apps/6749887847.png"
+    "icon": "/apps/6749887847.png",
+    "screenshot": "/apps/shots/6749887847.jpg"
   },
   {
     "id": 1391581924,
@@ -69,7 +73,8 @@
     "url": "https://apps.apple.com/us/app/chatpdf-ai-chat-with-any-pdf/id1672831757",
     "released": "2023-03-07",
     "blurb": "ChatPDF is the easiest way to build you own AI chatbots powered by ChatGPT.",
-    "icon": "/apps/1672831757.png"
+    "icon": "/apps/1672831757.png",
+    "screenshot": "/apps/shots/1672831757.jpg"
   },
   {
     "id": 6450915714,
@@ -81,7 +86,8 @@
     "url": "https://apps.apple.com/us/app/whisper-transcribe-dictation/id6450915714",
     "released": "2023-07-11",
     "blurb": "With the cutting-edge speech-to-text technology, Whisper, transcribe your live recordings, audio or video files into text accurately and efficiently.",
-    "icon": "/apps/6450915714.png"
+    "icon": "/apps/6450915714.png",
+    "screenshot": "/apps/shots/6450915714.jpg"
   },
   {
     "id": 1436010230,

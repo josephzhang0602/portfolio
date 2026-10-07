@@ -42,6 +42,19 @@ for (const app of apps) {
   delete app.artwork;
 }
 
+// First iPhone screenshot of each featured app, for the app cards.
+const SCREENSHOT_IDS = [1672831757, 1626767582, 6749887847, 1388842081, 6450915714, 1120027237];
+await mkdir(new URL('public/apps/shots/', root), { recursive: true });
+for (const a of results.filter((r) => SCREENSHOT_IDS.includes(r.trackId))) {
+  const first = a.screenshotUrls?.[0];
+  if (!first) continue;
+  const img = await fetch(first.replace(/\/[^/]+$/, '/460x0w.jpg'));
+  if (img.ok) {
+    await writeFile(new URL(`public/apps/shots/${a.trackId}.jpg`, root), Buffer.from(await img.arrayBuffer()));
+    apps.find((x) => x.id === a.trackId).screenshot = `/apps/shots/${a.trackId}.jpg`;
+  }
+}
+
 apps.sort((a, b) => b.ratings - a.ratings);
 await writeFile(new URL('src/data/apps.json', root), JSON.stringify(apps, null, 2) + '\n');
 console.log(`Saved ${apps.length} apps`);

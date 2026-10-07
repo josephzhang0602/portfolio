@@ -1,0 +1,20 @@
+---
+import { codemind as cm } from '../../data/codemind.js';
+---
+<dl class="metrics">
+  {cm.metrics.map((m, i) => (
+    <div class="metric reveal" data-delay={String(i)}>
+      <dt data-count={m.value}>{m.value}</dt>
+      <dd>{m.label}</dd>
+    </div>
+  ))}
+</dl>
+
+<style>
+  .metrics { margin: 56px 0 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .metric { padding: 4px 0 4px 20px; border-left: 2px solid var(--accent); }
+  .metric dt { font-size: 34px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.1; }
+  .metric dd { margin: 6px 0 0; color: var(--muted); font-size: 14px; }
+  @media (max-width: 900px) { .metrics { grid-template-columns: 1fr 1fr; row-gap: 28px; } }
+  @media (max-width: 640px) { .metric dt { font-size: 28px; } }
+</style>

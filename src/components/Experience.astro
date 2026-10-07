@@ -1,4 +1,5 @@
 ---
+import Icon from './Icon.astro';
 import { experience, education } from '../data/site.js';
 ---
 <section id="experience">
@@ -9,15 +10,19 @@ import { experience, education } from '../data/site.js';
     </div>
 
     <ol class="timeline">
-      {experience.map((job) => (
+      {experience.map((job, i) => (
         <li class="job reveal">
-          <div class="when">
-            <span class="period">{job.period}</span>
-            <span class="place">{job.place}</span>
-          </div>
-          <div class="what">
-            <h3>{job.role}</h3>
-            <span class="company">{job.company}</span>
+          <span class={`node ${i === 0 ? 'now' : ''}`} aria-hidden="true"></span>
+          <div class="job-card card spot">
+            <header>
+              <span class="mark">{job.mark}</span>
+              <div class="who">
+                <h3>{job.role}</h3>
+                <span class="company">{job.company} <span class="place">· {job.place}</span></span>
+              </div>
+              <span class={`period ${i === 0 ? 'current' : ''}`}>{i === 0 && <i></i>}{job.period}</span>
+            </header>
+            <p class="highlight"><Icon name="spark" size={15} /> {job.highlight}</p>
             <ul>
               {job.points.map((p) => <li>{p}</li>)}
             </ul>
@@ -26,10 +31,16 @@ import { experience, education } from '../data/site.js';
         </li>
       ))}
       <li class="job reveal">
-        <div class="when"><span class="period">{education.period}</span></div>
-        <div class="what">
-          <h3>{education.degree}</h3>
-          <span class="company">{education.school}</span>
+        <span class="node edu" aria-hidden="true"></span>
+        <div class="job-card card edu-card">
+          <header>
+            <span class="mark">UA</span>
+            <div class="who">
+              <h3>{education.degree}</h3>
+              <span class="company">{education.school}</span>
+            </div>
+            <span class="period">{education.period}</span>
+          </header>
         </div>
       </li>
     </ol>
@@ -37,20 +48,57 @@ import { experience, education } from '../data/site.js';
 </section>
 
 <style>
-  .timeline { list-style: none; margin: 0; padding: 0; }
-  .job { display: grid; grid-template-columns: 220px 1fr; gap: 40px; padding: 36px 0; border-top: 1px solid var(--border); }
-  .job:last-child { border-bottom: 1px solid var(--border); }
-  .when { display: flex; flex-direction: column; gap: 4px; }
-  .period { font-family: var(--mono); font-size: 13px; color: var(--text); }
-  .place { font-size: 14px; color: var(--faint); }
-  .what h3 { font-size: 22px; }
-  .company { display: inline-block; margin-top: 6px; color: var(--accent); font-weight: 500; }
-  .what ul { margin: 18px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; }
-  .what ul li { position: relative; padding-left: 20px; color: var(--muted); }
-  .what ul li::before { content: ''; position: absolute; left: 0; top: 0.72em; width: 8px; height: 1px; background: var(--faint); }
-  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 20px; }
-  @media (max-width: 760px) {
-    .job { grid-template-columns: 1fr; gap: 12px; padding: 28px 0; }
-    .when { flex-direction: row; gap: 10px; flex-wrap: wrap; }
+  .timeline { list-style: none; margin: 0; padding: 0 0 0 36px; position: relative; display: grid; gap: 20px; }
+  .timeline::before {
+    content: ''; position: absolute; left: 9px; top: 12px; bottom: 12px; width: 2px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent-2) 60%, var(--border));
+    border-radius: 2px;
+  }
+  .job { position: relative; }
+  .node {
+    position: absolute; left: -33px; top: 28px; width: 14px; height: 14px; border-radius: 50%;
+    background: var(--bg); border: 2px solid var(--accent);
+  }
+  .node.now { background: var(--accent); box-shadow: 0 0 0 5px var(--accent-soft); }
+  .node.edu { border-color: var(--border-strong); top: 26px; }
+
+  .job-card { padding: 24px 26px; }
+  header { display: flex; align-items: center; gap: 16px; }
+  .mark {
+    width: 46px; height: 46px; border-radius: 13px; display: grid; place-items: center; flex-shrink: 0;
+    font-weight: 700; font-size: 14px; letter-spacing: 0.02em; color: #fff;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  }
+  .edu-card .mark { background: var(--surface-2); color: var(--muted); border: 1px solid var(--border); }
+  .who { flex: 1; min-width: 0; }
+  .who h3 { font-size: 19px; }
+  .company { display: block; margin-top: 4px; color: var(--accent); font-weight: 500; font-size: 15px; }
+  .place { color: var(--faint); font-weight: 400; }
+  .period {
+    font-family: var(--mono); font-size: 12px; color: var(--muted); white-space: nowrap;
+    padding: 6px 11px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface-2);
+    display: inline-flex; align-items: center; gap: 7px;
+  }
+  .period.current { color: #16a34a; border-color: rgba(22, 163, 74, 0.3); background: rgba(22, 163, 74, 0.08); }
+  .period i { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; }
+
+  .highlight {
+    margin-top: 18px; padding: 12px 14px; border-radius: 12px; display: flex; gap: 10px; align-items: flex-start;
+    background: var(--accent-soft); color: var(--text); font-size: 15px; font-weight: 500;
+  }
+  .highlight :global(svg) { color: var(--accent); flex-shrink: 0; margin-top: 3px; }
+  ul { margin: 16px 0 0; padding: 0; list-style: none; display: grid; gap: 9px; }
+  ul li { position: relative; padding-left: 20px; color: var(--muted); font-size: 15px; }
+  ul li::before { content: ''; position: absolute; left: 2px; top: 0.7em; width: 6px; height: 6px; border-radius: 50%; border: 1.5px solid var(--faint); }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; }
+
+  @media (max-width: 640px) {
+    .timeline { padding-left: 26px; }
+    .timeline::before { left: 5px; }
+    .node { left: -27px; }
+    .job-card { padding: 20px 18px; }
+    header { flex-wrap: wrap; gap: 12px; }
+    .period { order: 3; }
+    .mark { width: 40px; height: 40px; font-size: 13px; }
   }
 </style>

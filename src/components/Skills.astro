@@ -1,5 +1,7 @@
 ---
 import { skills } from '../data/site.js';
+
+const initials = (name) => ((name.match(/[A-Z]/g) || [name[0]]).join('') || name[0]).slice(0, 2).toUpperCase();
 ---
 <section id="skills" class="skills">
   <div class="container">
@@ -10,9 +12,19 @@ import { skills } from '../data/site.js';
     </div>
     <div class="groups">
       {skills.map((s, i) => (
-        <div class="group card spot reveal" data-delay={String(i % 3)}>
+        <div class={`group card spot reveal ${['AI / ML', 'Cloud & DevOps'].includes(s.group) ? 'wide' : ''}`} data-delay={String(i % 3)}>
           <h3>{s.group}</h3>
-          <div class="items">{s.items.map((it) => <span class="chip">{it}</span>)}</div>
+          <ul class="logos">
+            {s.logos.map(([name, icon]) => (
+              <li>
+                <span class="tile">
+                  {icon ? <img src={`/tech/${icon}.svg`} alt="" width="28" height="28" loading="lazy" /> : <b>{initials(name)}</b>}
+                </span>
+                <span class="name">{name}</span>
+              </li>
+            ))}
+          </ul>
+          {s.more.length > 0 && <div class="more">{s.more.map((m) => <span class="chip">{m}</span>)}</div>}
         </div>
       ))}
     </div>
@@ -22,10 +34,32 @@ import { skills } from '../data/site.js';
 <style>
   .skills { background: linear-gradient(to bottom, transparent, var(--bg-2) 30%, var(--bg-2) 80%, transparent); }
   .groups { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .group { padding: 24px; }
+  .group { padding: 24px; display: flex; flex-direction: column; gap: 18px; }
+  .group.wide { grid-column: span 2; }
   .group h3 { font-size: 13px; font-family: var(--mono); font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); }
-  .items { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
-  .items .chip { color: var(--text); background: var(--surface-2); }
-  @media (max-width: 900px) { .groups { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 640px) { .groups { grid-template-columns: 1fr; } }
+  .logos { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); gap: 14px 8px; }
+  .logos li { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+  .tile {
+    width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center;
+    background: #fff; border: 1px solid rgba(16, 18, 28, 0.08); box-shadow: var(--shadow);
+    transition: transform 0.25s;
+  }
+  .logos li:hover .tile { transform: translateY(-3px); }
+  .tile img { width: 28px; height: 28px; object-fit: contain; }
+  .tile b {
+    font-size: 15px; font-weight: 700; letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #4b52e0, #0e9f8e); -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .name { font-size: 12.5px; color: var(--muted); line-height: 1.25; }
+  .more { display: flex; flex-wrap: wrap; gap: 6px; padding-top: 16px; border-top: 1px solid var(--border); margin-top: auto; }
+  .more .chip { color: var(--text); }
+  @media (max-width: 900px) {
+    .groups { grid-template-columns: 1fr 1fr; }
+    .group.wide { grid-column: span 2; }
+  }
+  @media (max-width: 640px) {
+    .groups { grid-template-columns: 1fr; }
+    .group.wide { grid-column: auto; }
+    .group { padding: 20px; }
+  }
 </style>

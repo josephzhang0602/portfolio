@@ -1,171 +1,35 @@
 ---
 import Icon from './Icon.astro';
+import Showcase from './codemind/Showcase.astro';
+import Metrics from './codemind/Metrics.astro';
 import { codemind as cm } from '../data/codemind.js';
 ---
 <section id="codemind" class="cm">
   <div class="container">
-    <div class="cm-head">
-      <div class="section-head reveal">
-        <span class="eyebrow">02 · Flagship product</span>
-        <h2>{cm.name}: <span class="serif grad">a whole product</span>, end to end.</h2>
-        <p>{cm.summary}</p>
-      </div>
-      <a href={cm.url} target="_blank" rel="noopener" class="btn btn-primary reveal live">
-        <span class="live-dot"></span> Visit live site <Icon name="arrow" size={16} />
+    <div class="section-head reveal">
+      <span class="eyebrow">02 · Flagship product</span>
+      <h2>{cm.name}: <span class="serif grad">a whole product</span>, end to end.</h2>
+      <p>{cm.summary}</p>
+    </div>
+
+    <Showcase />
+    <Metrics />
+
+    <div class="cm-ctas reveal">
+      <a href="/codemind" class="btn btn-primary">Read the case study <Icon name="arrow" size={16} /></a>
+      <a href={cm.url} target="_blank" rel="noopener" class="btn btn-ghost">
+        <span class="live-dot"></span> Visit live site
       </a>
-    </div>
-
-    <div class="showcase reveal">
-      <div class="browser">
-        <div class="browser-bar">
-          <span class="dots"><i></i><i></i><i></i></span>
-          <span class="url">jobs.codemind.site</span>
-        </div>
-        <img src="/shots/board.png" alt="CodeMind Jobs job board with filters, salary estimates and a resume match panel" width="2160" height="1350" loading="lazy" />
-      </div>
-      <div class="phone">
-        <img src="/shots/board-mobile.png" alt="CodeMind Jobs on a phone" width="780" height="1688" loading="lazy" />
-      </div>
-    </div>
-
-    <div class="flow reveal">
-      <span class="flow-label">How a job moves through CodeMind</span>
-      <ol class="flow-steps">
-        {cm.pipeline.map((s, i) => (
-          <li class="flow-step">
-            <div class="flow-top">
-              <span class="flow-icon"><Icon name={s.icon} size={18} /></span>
-              <span class="flow-num">{String(i + 1).padStart(2, '0')}</span>
-            </div>
-            <div class="flow-text">
-              <b>{s.title}</b>
-              <small>{s.note}</small>
-            </div>
-            {i < cm.pipeline.length - 1 && <span class="flow-arrow" aria-hidden="true"><Icon name="arrow" size={12} /></span>}
-          </li>
-        ))}
-      </ol>
-    </div>
-
-    <dl class="metrics">
-      {cm.metrics.map((m, i) => (
-        <div class="metric reveal" data-delay={String(i)}>
-          <dt>{m.value}</dt>
-          <dd>{m.label}</dd>
-        </div>
-      ))}
-    </dl>
-
-    <div class="highlights">
-      {cm.highlights.map((h, i) => (
-        <article class="hl card spot reveal" data-delay={String(i % 3)}>
-          <span class="hl-icon"><Icon name={h.icon} size={20} /></span>
-          <h3>{h.title}</h3>
-          <p>{h.body}</p>
-        </article>
-      ))}
-    </div>
-
-    <div class="stack reveal">
-      <span class="stack-label">Stack</span>
-      {cm.stack.map((s) => <span class="chip">{s}</span>)}
     </div>
   </div>
 </section>
 
 <style>
   .cm { background: linear-gradient(to bottom, transparent, var(--bg-2) 30%, var(--bg-2) 85%, transparent); }
-  .cm-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; }
-  .cm-head .section-head { max-width: 720px; }
-  .live { margin-bottom: 56px; flex-shrink: 0; }
+  .cm .section-head { max-width: 720px; }
+  .cm-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 48px; }
   .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; }
-
-  .showcase { position: relative; padding-right: 90px; padding-bottom: 40px; }
-  .browser {
-    border-radius: 14px; overflow: hidden; background: var(--surface);
-    border: 1px solid var(--border-strong); box-shadow: var(--shadow-lg);
-  }
-  .browser-bar {
-    display: flex; align-items: center; gap: 16px; height: 40px; padding: 0 14px;
-    background: var(--surface-2); border-bottom: 1px solid var(--border);
-  }
-  .dots { display: flex; gap: 7px; }
-  .dots i { width: 11px; height: 11px; border-radius: 50%; background: var(--border-strong); }
-  .dots i:nth-child(1) { background: #ff5f57; } .dots i:nth-child(2) { background: #febc2e; } .dots i:nth-child(3) { background: #28c840; }
-  .url {
-    flex: 1; max-width: 360px; margin: 0 auto; text-align: center; font-size: 12px; color: var(--muted);
-    background: var(--surface); border: 1px solid var(--border); border-radius: 7px; padding: 3px 10px;
-    font-family: var(--mono);
-  }
-  .browser img { width: 100%; height: auto; }
-  .phone {
-    position: absolute; right: 0; bottom: 0; width: 23%; min-width: 150px;
-    border-radius: 34px; padding: 8px; background: #0b0c10;
-    box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255,255,255,.08) inset;
-    aspect-ratio: 390 / 844; overflow: hidden;
-  }
-  .phone img { width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 27px; }
-
-  .flow { margin-top: 56px; }
-  .flow-label { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); }
-  .flow-steps { list-style: none; margin: 18px 0 0; padding: 0; display: grid; grid-template-columns: repeat(6, 1fr); gap: 22px; }
-  .flow-step {
-    position: relative; display: flex; flex-direction: column; gap: 16px; padding: 18px;
-    border-radius: 16px; border: 1px solid var(--border); background: var(--surface); box-shadow: var(--shadow);
-    transition: transform 0.25s, border-color 0.25s;
-  }
-  .flow-step:hover { transform: translateY(-3px); border-color: var(--accent); }
-  .flow-top { display: flex; align-items: center; justify-content: space-between; }
-  .flow-icon {
-    width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; color: #fff;
-    background: linear-gradient(135deg, var(--accent), var(--accent-2));
-    box-shadow: 0 6px 16px -6px var(--accent);
-  }
-  .flow-num { font-family: var(--mono); font-size: 13px; color: var(--faint); }
-  .flow-text { display: flex; flex-direction: column; gap: 6px; }
-  .flow-step b { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; }
-  .flow-step small { font-size: 13.5px; color: var(--muted); line-height: 1.5; }
-  .flow-arrow {
-    position: absolute; z-index: 2; right: -20px; top: 50%; transform: translateY(-50%) rotate(45deg);
-    width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center;
-    background: var(--bg-2); border: 1px solid var(--border-strong); color: var(--accent);
-  }
-  .flow-arrow :global(svg) { width: 10px; height: 10px; }
-
-  .metrics { margin: 56px 0 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-  .metric { padding: 4px 0 4px 20px; border-left: 2px solid var(--accent); }
-  .metric dt { font-size: 34px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.1; }
-  .metric dd { margin: 6px 0 0; color: var(--muted); font-size: 14px; }
-
-  .highlights { margin-top: 56px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .hl { padding: 26px; }
-  .hl-icon {
-    width: 40px; height: 40px; border-radius: 11px; display: grid; place-items: center;
-    background: var(--accent-soft); color: var(--accent);
-  }
-  .hl h3 { font-size: 18px; margin-top: 18px; letter-spacing: -0.015em; }
-  .hl p { margin-top: 10px; color: var(--muted); font-size: 15px; line-height: 1.6; }
-
-  .stack { margin-top: 36px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-  .stack-label { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--faint); margin-right: 8px; }
-
-  @media (max-width: 900px) {
-    .flow-steps { grid-template-columns: repeat(3, 1fr); }
-    .flow-step:nth-child(3n) .flow-arrow { display: none; }
-    .cm-head { flex-direction: column; align-items: flex-start; gap: 0; }
-    .live { margin: -24px 0 40px; }
-    .highlights { grid-template-columns: 1fr 1fr; }
-    .metrics { grid-template-columns: 1fr 1fr; row-gap: 28px; }
-  }
   @media (max-width: 640px) {
-    .flow-steps { grid-template-columns: 1fr; gap: 14px; }
-    .flow-step { flex-direction: row; align-items: center; gap: 14px; padding: 14px 16px; }
-    .flow-top { flex-direction: column; gap: 6px; }
-    .flow-num { font-size: 11px; }
-    .flow-steps .flow-step:not(:last-child) .flow-arrow { display: grid; right: auto; left: 34px; top: auto; bottom: -16px; transform: rotate(135deg); }
-    .showcase { padding-right: 0; padding-bottom: 0; }
-    .phone { display: none; }
-    .highlights { grid-template-columns: 1fr; }
-    .metric dt { font-size: 28px; }
+    .cm-ctas .btn { width: 100%; justify-content: center; }
   }
 </style>

@@ -1,0 +1,38 @@
+---
+import Icon from '../Icon.astro';
+import { codemind as cm } from '../../data/codemind.js';
+---
+<div class="highlights">
+  {cm.highlights.map((h, i) => (
+    <article class="hl card spot reveal" data-delay={String(i % 3)}>
+      <span class="hl-icon"><Icon name={h.icon} size={20} /></span>
+      <h3>{h.title}</h3>
+      <p>{h.body}</p>
+    </article>
+  ))}
+</div>
+
+<div class="stack reveal">
+  <span class="stack-label">Stack</span>
+  {cm.stack.map((s) => <span class="chip">{s}</span>)}
+</div>
+
+<style>
+  .highlights { margin-top: 56px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .hl { padding: 26px; }
+  .hl-icon {
+    width: 40px; height: 40px; border-radius: 11px; display: grid; place-items: center;
+    background: var(--accent-soft); color: var(--accent);
+  }
+  .hl h3 { font-size: 18px; margin-top: 18px; letter-spacing: -0.015em; }
+  .hl p { margin-top: 10px; color: var(--muted); font-size: 15px; line-height: 1.6; }
+
+  .stack { margin-top: 36px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .stack-label { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--faint); margin-right: 8px; }
+  @media (max-width: 900px) {
+    .highlights { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px) {
+    .highlights { grid-template-columns: 1fr; }
+  }
+</style>

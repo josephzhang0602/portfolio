@@ -1,0 +1,115 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import Showcase from '../components/codemind/Showcase.astro';
+import Metrics from '../components/codemind/Metrics.astro';
+import Pipeline from '../components/codemind/Pipeline.astro';
+import Highlights from '../components/codemind/Highlights.astro';
+import Contact from '../components/Contact.astro';
+import { codemind as cm } from '../data/codemind.js';
+
+const facts = [
+  ['Role', 'Design, engineering and operations'],
+  ['Product', 'AI job search for software engineers'],
+  ['Platforms', 'Web app, Chrome extension, MCP server'],
+  ['Status', 'Live in production'],
+];
+---
+<Layout
+  title="CodeMind Jobs case study · Joseph Zhang"
+  description="How I designed, built and run CodeMind Jobs: job ingestion from 40+ sources, LLM enrichment for under a cent per job, ATS scoring that code can audit, resume tailoring and form autofill."
+>
+  <section class="cs-hero">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="container">
+      <a href="/#codemind" class="back"><span aria-hidden="true">←</span> Back to portfolio</a>
+      <span class="eyebrow reveal">Case study</span>
+      <h1 class="reveal" data-delay="1">{cm.name}</h1>
+      <p class="lede reveal" data-delay="2">{cm.summary}</p>
+      <div class="ctas reveal" data-delay="3">
+        <a href={cm.url} target="_blank" rel="noopener" class="btn btn-primary"><span class="live-dot"></span> Visit live site <Icon name="arrow" size={16} /></a>
+        <a href="#how" class="btn btn-ghost">How it works</a>
+      </div>
+      <dl class="facts reveal" data-delay="3">
+        {facts.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
+      </dl>
+      <Showcase />
+      <Metrics />
+    </div>
+  </section>
+
+  <section class="cs-story">
+    <div class="container story">
+      <div class="reveal">
+        <span class="eyebrow">The problem</span>
+        <h2>Job search is mostly <span class="serif grad">noise</span>.</h2>
+      </div>
+      <div class="story-body reveal" data-delay="1">
+        <p>The same posting shows up dozens of times: reposted per city, copied by aggregators, often without a link to the employer's own page. Candidates can't tell whether their resume matches before they apply, and every application means tailoring a resume and filling the same form fields again.</p>
+        <p>CodeMind removes that work. It collects jobs once, cleans them into one record per role, tells you how well each resume fits and why, rewrites the resume for the role, and fills the form, so you spend your time on the jobs that matter.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="how" class="cs-how">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">How it works</span>
+        <h2>Six steps from <span class="serif grad">raw posting</span> to submitted form.</h2>
+      </div>
+      <Pipeline />
+    </div>
+  </section>
+
+  <section class="cs-deep">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Under the hood</span>
+        <h2>The engineering that <span class="serif grad">makes it work</span>.</h2>
+        <p>Every part is built to run unattended, keep AI costs predictable and keep scores you can check.</p>
+      </div>
+      <Highlights />
+    </div>
+  </section>
+
+  <Contact />
+</Layout>
+
+<style>
+  .cs-hero { padding: 56px 0 40px; overflow: hidden; }
+  .glow {
+    position: absolute; inset: -10% -10% auto -10%; height: 700px; pointer-events: none; z-index: -1;
+    background: radial-gradient(40% 50% at 70% 20%, var(--glow-1), transparent 70%), radial-gradient(35% 45% at 20% 50%, var(--glow-2), transparent 70%);
+    filter: blur(20px);
+  }
+  .back { display: inline-flex; gap: 8px; color: var(--muted); font-size: 14px; margin-bottom: 36px; transition: color 0.2s; }
+  .back:hover { color: var(--text); }
+  .cs-hero .eyebrow { display: flex; }
+  h1 { font-size: clamp(44px, 7vw, 84px); letter-spacing: -0.04em; margin-top: 16px; }
+  .lede { font-size: 19px; color: var(--muted); max-width: 760px; margin-top: 22px; }
+  .ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 32px; }
+  .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; }
+  .facts {
+    display: grid; grid-template-columns: repeat(4, 1fr); margin: 48px 0;
+    border-block: 1px solid var(--border);
+  }
+  .facts div { padding: 18px 20px 18px 0; }
+  .facts dt { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); }
+  .facts dd { margin: 6px 0 0; font-size: 15px; font-weight: 500; }
+
+  .story { display: grid; grid-template-columns: 1fr 1.4fr; gap: 56px; align-items: start; }
+  .story h2 { font-size: clamp(32px, 4vw, 48px); margin-top: 14px; }
+  .story-body { display: grid; gap: 18px; font-size: 18px; color: var(--muted); }
+  .cs-how { background: linear-gradient(to bottom, transparent, var(--bg-2) 25%, var(--bg-2) 80%, transparent); }
+  .cs-how :global(.flow) { margin-top: 0; }
+  .cs-deep :global(.highlights) { margin-top: 0; }
+
+  @media (max-width: 900px) {
+    .facts { grid-template-columns: 1fr 1fr; }
+    .story { grid-template-columns: 1fr; gap: 24px; }
+  }
+  @media (max-width: 640px) {
+    .lede, .story-body { font-size: 17px; }
+    .ctas .btn { width: 100%; justify-content: center; }
+  }
+</style>
