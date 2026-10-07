@@ -1,0 +1,125 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site.js';
+
+const offers = [
+  {
+    icon: 'spark',
+    title: 'AI features for your product',
+    body: 'RAG over your documents, agents that use your tools, structured extraction, and scoring you can audit. I build them with evals and a cost budget from day one.',
+    points: ['RAG & semantic search', 'Agents, tool calling & MCP', 'LLM pipelines & evals', 'Cost & latency tuning'],
+    featured: true,
+  },
+  {
+    icon: 'rocket',
+    title: 'Full-stack MVP, fast',
+    body: 'From idea to a product people pay for: web app, backend, auth, billing, admin and deployment. The same path I took with CodeMind.',
+    points: ['React / Next.js + Node or Python', 'Postgres, Mongo, Redis', 'Stripe billing & auth', 'Deployed and monitored'],
+  },
+  {
+    icon: 'phone',
+    title: 'iOS & mobile apps',
+    body: 'Native Swift/SwiftUI or React Native, designed for the App Store, with in-app purchases and on-device or cloud AI. I have launched 38 apps of my own.',
+    points: ['Swift, SwiftUI, React Native', 'In-app purchases & paywalls', 'On-device ML & AI APIs', 'App Store launch'],
+  },
+];
+
+const steps = [
+  { title: 'Discover', body: 'A short call to pin down the goal, the users and what success looks like.' },
+  { title: 'Prototype', body: 'A working slice in days, not a slide deck, so we decide on real output.' },
+  { title: 'Ship', body: 'Production code with tests, monitoring and a clear handoff.' },
+  { title: 'Measure', body: 'Quality evals, cost per request and usage, so we know what to improve next.' },
+];
+---
+<section id="services" class="services">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">04 · Work with me</span>
+      <h2>Have something to build? <span class="serif grad">Let's ship it.</span></h2>
+      <p>I join teams as a senior engineer and take on select contract work. Three kinds of projects I do best:</p>
+    </div>
+
+    <div class="offers">
+      {offers.map((o, i) => (
+        <article class={`offer card spot reveal ${o.featured ? 'featured' : ''}`} data-delay={String(i)}>
+          {o.featured && <span class="badge">Core focus</span>}
+          <span class="o-icon"><Icon name={o.icon} size={22} /></span>
+          <h3>{o.title}</h3>
+          <p>{o.body}</p>
+          <ul>
+            {o.points.map((p) => <li><Icon name="check" size={15} /> {p}</li>)}
+          </ul>
+        </article>
+      ))}
+    </div>
+
+    <div class="process reveal">
+      {steps.map((s, i) => (
+        <div class="p-step">
+          <span class="p-num">{String(i + 1).padStart(2, '0')}</span>
+          <b>{s.title}</b>
+          <span>{s.body}</span>
+        </div>
+      ))}
+    </div>
+
+    <div class="cta-row reveal">
+      <a href={`mailto:${site.email}?subject=Project%20inquiry`} class="btn btn-primary"><Icon name="calendar" size={16} /> Start a project</a>
+      <span class="cta-note">or write to <a href={`mailto:${site.email}`}>{site.email}</a></span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .offers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: stretch; }
+  .offer { padding: 30px 28px; display: flex; flex-direction: column; gap: 14px; transition: transform 0.3s, border-color 0.3s; }
+  .offer:hover { transform: translateY(-4px); border-color: var(--border-strong); }
+  .offer.featured {
+    border-color: transparent;
+    background:
+      linear-gradient(var(--surface), var(--surface)) padding-box,
+      linear-gradient(135deg, var(--accent), var(--accent-2)) border-box;
+    border: 1px solid transparent;
+  }
+  .badge {
+    position: absolute; top: 18px; right: 18px; z-index: 1; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.05em; text-transform: uppercase;
+    padding: 4px 9px; border-radius: 999px; color: #fff; background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  }
+  .o-icon {
+    width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center;
+    background: var(--accent-soft); color: var(--accent);
+  }
+  .offer h3 { font-size: 22px; margin-top: 6px; }
+  .offer p { color: var(--muted); font-size: 15px; }
+  .offer ul { list-style: none; margin: 6px 0 0; padding: 16px 0 0; border-top: 1px solid var(--border); display: grid; gap: 9px; }
+  .offer li { display: flex; align-items: center; gap: 10px; font-size: 14.5px; }
+  .offer li :global(svg) { color: var(--accent-2); flex-shrink: 0; }
+
+  .process {
+    margin-top: 16px; display: grid; grid-template-columns: repeat(4, 1fr);
+    border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); overflow: hidden;
+  }
+  .p-step { padding: 22px 24px; display: flex; flex-direction: column; gap: 6px; border-left: 1px solid var(--border); }
+  .p-step:first-child { border-left: 0; }
+  .p-num { font-family: var(--mono); font-size: 12px; color: var(--accent); }
+  .p-step b { font-size: 16px; }
+  .p-step span:last-child { font-size: 14px; color: var(--muted); }
+
+  .cta-row { margin-top: 32px; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cta-note { color: var(--muted); font-size: 14px; }
+  .cta-note a { color: var(--text); border-bottom: 1px solid var(--border-strong); }
+
+  @media (max-width: 960px) {
+    .offers { grid-template-columns: 1fr; }
+    .process { grid-template-columns: 1fr 1fr; }
+    .p-step:nth-child(3) { border-left: 0; }
+    .p-step:nth-child(n + 3) { border-top: 1px solid var(--border); }
+  }
+  @media (max-width: 640px) {
+    .offer { padding: 24px 20px; }
+    .process { grid-template-columns: 1fr; }
+    .p-step { border-left: 0; border-top: 1px solid var(--border); }
+    .p-step:first-child { border-top: 0; }
+    .cta-row .btn { width: 100%; justify-content: center; }
+  }
+</style>

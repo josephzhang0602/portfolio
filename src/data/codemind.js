@@ -42,5 +42,13 @@ export const codemind = {
       body: 'Stripe billing, an employer job-posting flow, identity verification, job alerts via Resend, an MCP server for AI assistants, programmatic SEO landing pages and an admin console with outreach tooling.',
     },
   ],
+  pipeline: [
+    { icon: 'search', title: 'Collect', note: '40+ sources · ATS APIs, scrapers, Apify' },
+    { icon: 'layers', title: 'Dedupe', note: 'multi-city merge · direct employer link' },
+    { icon: 'spark', title: 'Enrich', note: 'nano batch → mini · strict schema' },
+    { icon: 'filter', title: 'Score', note: 'verdicts + verified quotes · code weights' },
+    { icon: 'doc', title: 'Tailor', note: '3 modes · traced bullets · .docx / PDF' },
+    { icon: 'cursor', title: 'Apply', note: 'extension fills 16+ ATS forms' },
+  ],
   stack: ['React', 'Vite', 'Tailwind', 'Node.js', 'Express', 'MongoDB Atlas', 'OpenAI', 'Playwright', 'Apify', 'Stripe', 'Render', 'Cloudflare R2', 'Sentry', 'MCP'],
 };

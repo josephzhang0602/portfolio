@@ -1,0 +1,273 @@
+---
+import Icon from './Icon.astro';
+import { aiWork as w, aiAppCount } from '../data/ai.js';
+
+const bars = Array.from({ length: 36 }, (_, i) => 18 + Math.round(70 * Math.abs(Math.sin(i * 0.55) * Math.cos(i * 0.21))));
+// Three loose clusters for the embeddings picture.
+const clusters = [
+  { cx: 70, cy: 70, color: 'var(--accent)' },
+  { cx: 190, cy: 55, color: 'var(--accent-2)' },
+  { cx: 140, cy: 135, color: '#f59e0b' },
+];
+const rand = (n) => ((Math.sin(n * 12.9898) * 43758.5453) % 1 + 1) % 1;
+const dots = clusters.flatMap((c, ci) =>
+  Array.from({ length: 16 }, (_, i) => ({
+    x: c.cx + (rand(ci * 50 + i) - 0.5) * 70,
+    y: c.cy + (rand(ci * 50 + i + 0.5) - 0.5) * 55,
+    r: 2.2 + rand(i + ci) * 2.2,
+    color: c.color,
+  }))
+);
+---
+<section id="ai" class="ai">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">01 · AI work</span>
+      <h2>AI that runs <span class="serif grad">in production</span>, not in a demo.</h2>
+      <p>
+        LLM pipelines, RAG, agents, speech and generative media, shipped in CodeMind, in {aiAppCount} AI apps on the App
+        Store, and at telecom scale at First Orion. Each one has real users and a cost budget.
+      </p>
+    </div>
+
+    <div class="bento">
+      <!-- LLM pipelines -->
+      <article class="b b-7 card spot reveal">
+        <div class="viz viz-code" aria-hidden="true">
+          <div class="code-head">
+            <span class="pill"><span class="dot"></span>gpt-5-nano · batch</span>
+            <span class="arrow">→</span>
+            <span class="pill muted">gpt-5-mini · fallback</span>
+            <span class="pill ok"><Icon name="check" size={12} /> schema valid</span>
+          </div>
+<pre><code><span class="p">{'{'}</span>
+  <span class="k">"title"</span>: <span class="s">"Senior ML Engineer"</span>,
+  <span class="k">"seniority"</span>: <span class="s">"senior"</span>,
+  <span class="k">"skills"</span>: [<span class="s">"Python"</span>, <span class="s">"PyTorch"</span>, <span class="s">"AWS"</span>],
+  <span class="k">"salary"</span>: {'{'} <span class="k">"min"</span>: <span class="n">165000</span>, <span class="k">"max"</span>: <span class="n">210000</span> {'}'},
+  <span class="k">"workType"</span>: <span class="s">"remote"</span>,
+  <span class="k">"visaSponsor"</span>: <span class="n">false</span>
+<span class="p">{'}'}</span></code></pre>
+          <div class="cost"><b>$0.0005</b> per job · ~5,000 jobs / day</div>
+        </div>
+        <div class="txt">
+          <span class="where"><Icon name="layers" size={14} /> {w.pipelines.where}</span>
+          <h3>{w.pipelines.title}</h3>
+          <p>{w.pipelines.body}</p>
+          <div class="tags">{w.pipelines.tags.map((t) => <span class="chip">{t}</span>)}</div>
+        </div>
+      </article>
+
+      <!-- RAG -->
+      <article class="b b-5 card spot reveal" data-delay="1">
+        <div class="viz viz-chat" aria-hidden="true">
+          <div class="bubble user">What notice period does the contract require?</div>
+          <div class="bubble bot">
+            <span class="bot-av"><Icon name="chat" size={12} /></span>
+            <span>30 days' written notice, per Section 12.2. <span class="cite">p. 7</span></span>
+          </div>
+          <div class="retrieved">
+            <span>retrieved</span><i style="width:88%"></i><i style="width:64%"></i><i style="width:41%"></i>
+          </div>
+        </div>
+        <div class="txt">
+          <span class="where"><Icon name="chat" size={14} /> RAG apps</span>
+          <h3>{w.rag.title}</h3>
+          <p>{w.rag.body}</p>
+          <div class="icons">{w.rag.apps.map((a) => <a href={a.url} target="_blank" rel="noopener" title={a.gloss || a.name}><img src={a.icon} alt={a.name} width="36" height="36" loading="lazy" /></a>)}</div>
+        </div>
+      </article>
+
+      <!-- Agents -->
+      <article class="b b-4 card spot reveal">
+        <div class="viz viz-steps" aria-hidden="true">
+          <div class="step done"><span class="st"><Icon name="check" size={11} /></span><code>plan(question)</code></div>
+          <div class="step done"><span class="st"><Icon name="check" size={11} /></span><code>search_web × 6</code></div>
+          <div class="step done"><span class="st"><Icon name="check" size={11} /></span><code>read_pages × 14</code></div>
+          <div class="step run"><span class="st spin"></span><code>write_report()</code></div>
+        </div>
+        <div class="txt">
+          <span class="where"><Icon name="bot" size={14} /> Agents</span>
+          <h3>{w.agents.title}</h3>
+          <p>{w.agents.body}</p>
+        </div>
+      </article>
+
+      <!-- Speech -->
+      <article class="b b-4 card spot reveal" data-delay="1">
+        <div class="viz viz-wave" aria-hidden="true">
+          {bars.map((h, i) => <i style={`height:${h}%;animation-delay:${(i % 12) * 0.08}s`}></i>)}
+        </div>
+        <div class="txt">
+          <span class="where"><Icon name="wave" size={14} /> Speech apps</span>
+          <h3>{w.speech.title}</h3>
+          <p>{w.speech.body}</p>
+          <div class="icons">{w.speech.apps.map((a) => <a href={a.url} target="_blank" rel="noopener" title={a.name}><img src={a.icon} alt={a.name} width="36" height="36" loading="lazy" /></a>)}</div>
+        </div>
+      </article>
+
+      <!-- Scoring -->
+      <article class="b b-4 wide-md card spot reveal" data-delay="2">
+        <div class="viz viz-gauge" aria-hidden="true">
+          <svg viewBox="0 0 120 120" class="ring">
+            <circle cx="60" cy="60" r="50" class="track" />
+            <circle cx="60" cy="60" r="50" class="val" pathLength="100" style="stroke-dasharray: 82 100" />
+          </svg>
+          <div class="score"><b>82</b><span>ATS match</span></div>
+          <ul class="verdicts">
+            <li><i class="g"></i>met 14</li>
+            <li><i class="y"></i>weak 3</li>
+            <li><i class="r"></i>missing 3</li>
+          </ul>
+        </div>
+        <div class="txt">
+          <span class="where"><Icon name="filter" size={14} /> CodeMind</span>
+          <h3>{w.scoring.title}</h3>
+          <p>{w.scoring.body}</p>
+        </div>
+      </article>
+
+      <!-- Generative -->
+      <article class="b b-7 card spot reveal">
+        <div class="viz viz-mosaic">
+          {w.generative.apps.map((a, i) => (
+            <a href={a.url} target="_blank" rel="noopener" class={`m m${i}`} title={a.name}>
+              <img src={a.icon} alt={a.name} width="96" height="96" loading="lazy" />
+            </a>
+          ))}
+        </div>
+        <div class="txt">
+          <span class="where"><Icon name="image" size={14} /> {w.generative.where}</span>
+          <h3>{w.generative.title}</h3>
+          <p>{w.generative.body}</p>
+        </div>
+      </article>
+
+      <!-- NLP -->
+      <article class="b b-5 card spot reveal" data-delay="1">
+        <div class="viz viz-emb" aria-hidden="true">
+          <svg viewBox="0 0 260 180">
+            {dots.map((d) => <circle cx={d.x} cy={d.y} r={d.r} fill={d.color} opacity="0.85" />)}
+            <circle cx="70" cy="70" r="44" class="halo" />
+            <text x="70" y="128" class="lbl">spam</text>
+            <text x="190" y="105" class="lbl">verified</text>
+            <text x="140" y="172" class="lbl">unknown</text>
+          </svg>
+        </div>
+        <div class="txt">
+          <span class="where"><Icon name="nodes" size={14} /> {w.nlp.where}</span>
+          <h3>{w.nlp.title}</h3>
+          <p>{w.nlp.body}</p>
+          <div class="tags">{w.nlp.tags.map((t) => <span class="chip">{t}</span>)}</div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .bento { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
+  .b { display: flex; flex-direction: column; min-width: 0; transition: transform 0.3s, border-color 0.3s; }
+  .b:hover { transform: translateY(-3px); border-color: var(--border-strong); }
+  .b-7 { grid-column: span 7; } .b-5 { grid-column: span 5; } .b-4 { grid-column: span 4; }
+  .txt { padding: 22px 26px 26px; display: flex; flex-direction: column; gap: 10px; }
+  .where { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.04em; color: var(--accent); text-transform: uppercase; }
+  .txt h3 { font-size: 21px; letter-spacing: -0.02em; }
+  .txt p { color: var(--muted); font-size: 15px; line-height: 1.6; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .icons { display: flex; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
+  .icons img { width: 36px; height: 36px; border-radius: 22.5%; border: 1px solid var(--border); transition: transform 0.2s; }
+  .icons a:hover img { transform: translateY(-2px) scale(1.06); }
+
+  .viz {
+    position: relative; margin: 10px 10px 0; border-radius: 12px; overflow: hidden; min-height: 210px; flex: 1 0 auto;
+    background:
+      radial-gradient(120% 90% at 100% 0%, var(--accent-soft), transparent 60%),
+      var(--surface-2);
+    border: 1px solid var(--border);
+  }
+
+  /* Code */
+  .viz-code { padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; }
+  .code-head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 11px; padding: 4px 9px; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); }
+  .pill.muted { color: var(--muted); }
+  .pill.ok { color: #16a34a; border-color: rgba(22, 163, 74, 0.35); background: rgba(22, 163, 74, 0.08); margin-left: auto; }
+  .pill .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: blink 1.6s infinite; }
+  @keyframes blink { 50% { opacity: 0.25; } }
+  .arrow { color: var(--faint); font-size: 12px; }
+  pre { margin: 0; font-family: var(--mono); font-size: 12.5px; line-height: 1.7; overflow-x: auto; color: var(--text); }
+  .k { color: var(--accent); } .s { color: var(--accent-2); } .n { color: #f59e0b; } .p { color: var(--faint); }
+  .cost { font-size: 12.5px; color: var(--muted); border-top: 1px dashed var(--border-strong); padding-top: 10px; }
+  .cost b { color: var(--text); font-weight: 600; }
+
+  /* Chat */
+  .viz-chat { padding: 18px; display: flex; flex-direction: column; gap: 10px; justify-content: center; }
+  .bubble { font-size: 13.5px; line-height: 1.5; padding: 10px 14px; border-radius: 14px; max-width: 88%; }
+  .bubble.user { align-self: flex-end; background: var(--text); color: var(--bg); border-bottom-right-radius: 4px; }
+  .bubble.bot { display: flex; gap: 10px; align-items: flex-start; background: var(--surface); border: 1px solid var(--border); border-bottom-left-radius: 4px; }
+  .bot-av { flex-shrink: 0; width: 22px; height: 22px; border-radius: 7px; display: grid; place-items: center; color: #fff; background: linear-gradient(135deg, var(--accent), var(--accent-2)); }
+  .cite { font-family: var(--mono); font-size: 10.5px; padding: 1px 6px; border-radius: 5px; background: var(--accent-soft); color: var(--accent); white-space: nowrap; }
+  .retrieved { display: flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 10.5px; color: var(--faint); }
+  .retrieved i { height: 5px; border-radius: 3px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); opacity: 0.55; flex: 0 0 auto; max-width: 70px; }
+
+  /* Agent steps */
+  .viz-steps { padding: 20px; display: flex; flex-direction: column; gap: 9px; justify-content: center; }
+  .step { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 10px; background: var(--surface); border: 1px solid var(--border); font-size: 12.5px; }
+  .step code { font-family: var(--mono); }
+  .st { width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; flex-shrink: 0; }
+  .done .st { background: rgba(22, 163, 74, 0.14); color: #16a34a; }
+  .run { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .spin { border: 2px solid var(--accent-soft); border-top-color: var(--accent); animation: spin 0.9s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Waveform */
+  .viz-wave { display: flex; align-items: center; justify-content: center; gap: 4px; padding: 24px 18px; height: 210px; }
+  .viz-wave i { max-height: 150px; }
+  .viz-wave i { width: 5px; border-radius: 3px; background: linear-gradient(to top, var(--accent), var(--accent-2)); animation: eq 1.2s ease-in-out infinite alternate; transform-origin: center; }
+  @keyframes eq { from { transform: scaleY(0.35); } to { transform: scaleY(1); } }
+
+  /* Gauge */
+  .viz-gauge { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 18px; padding: 22px; position: relative; }
+  .ring { width: 120px; height: 120px; transform: rotate(-90deg); }
+  .ring circle { fill: none; stroke-width: 10; }
+  .track { stroke: var(--border-strong); }
+  .val { stroke: var(--accent-2); stroke-linecap: round; }
+  .score { position: absolute; left: 22px; width: 120px; text-align: center; display: flex; flex-direction: column; }
+  .score b { font-size: 34px; letter-spacing: -0.03em; line-height: 1; }
+  .score span { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .verdicts { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; font-size: 13px; color: var(--muted); }
+  .verdicts li { display: flex; align-items: center; gap: 8px; }
+  .verdicts i { width: 9px; height: 9px; border-radius: 3px; }
+  .verdicts .g { background: #22c55e; } .verdicts .y { background: #f59e0b; } .verdicts .r { background: #ef4444; }
+
+  /* Mosaic */
+  .viz-mosaic { display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; padding: 28px 22px; align-items: center; align-content: center; }
+  .m img { width: 100%; aspect-ratio: 1; border-radius: 22.5%; border: 1px solid var(--border); box-shadow: var(--shadow); transition: transform 0.3s; }
+  .m:nth-child(odd) img { transform: translateY(10px); }
+  .m:nth-child(even) img { transform: translateY(-10px); }
+  .m:hover img { transform: translateY(0) scale(1.08); }
+
+  /* Embeddings */
+  .viz-emb { display: grid; place-items: center; padding: 10px; }
+  .viz-emb svg { width: 100%; max-width: 330px; height: auto; }
+  .halo { fill: none; stroke: var(--accent); stroke-dasharray: 3 4; opacity: 0.6; }
+  .lbl { font-family: var(--mono); font-size: 10px; fill: var(--muted); text-anchor: middle; }
+
+  @media (max-width: 960px) {
+    .b-7, .b-5 { grid-column: span 12; }
+    .b-4 { grid-column: span 6; }
+    .b-4.wide-md { grid-column: span 12; }
+  }
+  @media (max-width: 640px) {
+    .bento { gap: 12px; }
+    .b-4 { grid-column: span 12; }
+    .txt { padding: 18px 20px 22px; }
+    .viz { min-height: 0; }
+    pre { font-size: 11.5px; }
+    .viz-wave { height: 150px; flex: 0 0 auto; }
+    .viz-mosaic { grid-template-columns: repeat(4, 1fr); padding: 20px 16px 26px; }
+    .m:nth-child(n) img { transform: none; }
+    .pill.ok { margin-left: 0; }
+  }
+</style>

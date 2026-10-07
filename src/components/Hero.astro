@@ -1,19 +1,22 @@
 ---
 import Icon from './Icon.astro';
 import { site, stats } from '../data/site.js';
-import { apps } from '../data/apps.js';
+import { apps, totalRatings } from '../data/apps.js';
+
+const tech = ['OpenAI', 'LangChain', 'LangGraph', 'Hugging Face', 'PyTorch', 'pgvector', 'React', 'Next.js', 'TypeScript', 'Node.js', 'FastAPI', 'Swift', 'SwiftUI', 'PostgreSQL', 'MongoDB', 'Redis', 'AWS', 'Cloudflare', 'Playwright', 'Stripe'];
 
 // Three columns of icons that scroll forever behind a soft mask.
 const icons = apps.map((a) => ({ src: a.icon, name: a.name }));
 const cols = [0, 1, 2].map((c) => icons.filter((_, i) => i % 3 === c));
 ---
 <section class="hero">
+  <div class="grid-bg" aria-hidden="true"></div>
   <div class="glow" aria-hidden="true"></div>
   <div class="container hero-grid">
     <div class="hero-copy">
       <div class="status reveal">
         <span class="pulse"></span>
-        Open to senior full-stack & AI roles<span class="status-extra"> · Remote or {site.location.split(',')[0]}</span>
+        <span>Available for senior roles<span class="status-extra"> &amp; AI contract work</span></span>
       </div>
       <h1 class="reveal" data-delay="1">
         I build <span class="serif grad">AI products</span> that ship, from LLM pipelines to apps with 4M+ installs.
@@ -24,12 +27,15 @@ const cols = [0, 1, 2].map((c) => icons.filter((_, i) => i % 3 === c));
         have published <a href="#apps" class="inline-link">38 apps</a> on the App Store.
       </p>
       <div class="ctas reveal" data-delay="3">
-        <a href="#codemind" class="btn btn-primary">See my work <Icon name="arrow" size={16} /></a>
-        <a href={`mailto:${site.email}`} class="btn btn-ghost"><Icon name="mail" size={16} /> {site.email}</a>
+        <a href="#ai" class="btn btn-primary">See my AI work <Icon name="arrow" size={16} /></a>
+        <a href="#services" class="btn btn-ghost"><Icon name="rocket" size={16} /> Start a project</a>
       </div>
     </div>
 
-    <div class="wall reveal" data-delay="2" aria-hidden="true">
+    <div class="wall-wrap reveal" data-delay="2" aria-hidden="true">
+    <div class="float f1"><span class="f-ic ok"><Icon name="check" size={14} /></span><span><b>schema valid</b><small>gpt-5-nano · $0.0005/job</small></span></div>
+    <div class="float f2"><span class="f-ic star"><Icon name="star" size={14} /></span><span><b>{totalRatings.toLocaleString('en-US')}+ ratings</b><small>across 38 App Store apps</small></span></div>
+    <div class="wall">
       {cols.map((col, c) => (
         <div class={`wall-col col-${c}`}>
           {[...col, ...col].map((i) => (
@@ -37,6 +43,7 @@ const cols = [0, 1, 2].map((c) => icons.filter((_, i) => i % 3 === c));
           ))}
         </div>
       ))}
+    </div>
     </div>
   </div>
 
@@ -56,10 +63,23 @@ const cols = [0, 1, 2].map((c) => icons.filter((_, i) => i % 3 === c));
       ))}
     </dl>
   </div>
+
+  <div class="marquee reveal" aria-label="Technologies">
+    <div class="marquee-track">
+      {[...tech, ...tech].map((t) => <span>{t}</span>)}
+    </div>
+  </div>
 </section>
 
 <style>
   .hero { padding: 72px 0 40px; overflow: hidden; }
+  .grid-bg {
+    position: absolute; inset: 0; z-index: -2; pointer-events: none;
+    background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 56px 56px;
+    -webkit-mask-image: radial-gradient(70% 60% at 50% 20%, #000, transparent 75%);
+    mask-image: radial-gradient(70% 60% at 50% 20%, #000, transparent 75%);
+  }
   .glow {
     position: absolute; inset: -20% -10% auto -10%; height: 760px; pointer-events: none; z-index: -1;
     background:
@@ -75,7 +95,6 @@ const cols = [0, 1, 2].map((c) => icons.filter((_, i) => i % 3 === c));
     font-size: 13px; color: var(--muted); box-shadow: var(--shadow);
   }
   .status-extra { white-space: nowrap; }
-  @media (max-width: 640px) { .status-extra { display: none; } }
   .pulse { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 0 0 rgba(34,197,94,.6); animation: pulse 2s infinite; }
   @keyframes pulse { 70% { box-shadow: 0 0 0 8px rgba(34,197,94,0); } 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); } }
   h1 { font-size: clamp(40px, 6vw, 72px); margin-top: 26px; font-weight: 600; letter-spacing: -0.035em; line-height: 1.02; }
@@ -84,6 +103,32 @@ const cols = [0, 1, 2].map((c) => icons.filter((_, i) => i % 3 === c));
   .inline-link { color: var(--text); border-bottom: 1px solid var(--border-strong); transition: border-color 0.2s; }
   .inline-link:hover { border-color: var(--accent); }
   .ctas { display: flex; gap: 12px; margin-top: 36px; flex-wrap: wrap; }
+
+  .wall-wrap { position: relative; }
+  .float {
+    position: absolute; z-index: 2; display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px 10px 10px; border-radius: 14px;
+    background: color-mix(in srgb, var(--surface) 82%, transparent); border: 1px solid var(--border-strong);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: var(--shadow-lg);
+    animation: bob 6s ease-in-out infinite;
+  }
+  .float b { display: block; font-size: 13.5px; font-weight: 600; }
+  .float small { display: block; font-size: 11.5px; color: var(--muted); }
+  .f1 { left: -28px; top: 96px; }
+  .f2 { right: -8px; bottom: 70px; animation-delay: -3s; }
+  .f-ic { width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; }
+  .f-ic.ok { background: rgba(22, 163, 74, 0.14); color: #16a34a; }
+  .f-ic.star { background: rgba(245, 158, 11, 0.14); color: var(--star); }
+  @keyframes bob { 50% { transform: translateY(-8px); } }
+
+  .marquee {
+    margin-top: 40px; overflow: hidden; border-block: 1px solid var(--border); padding: 16px 0;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  }
+  .marquee-track { display: flex; gap: 44px; width: max-content; animation: left 50s linear infinite; }
+  .marquee-track span { font-family: var(--mono); font-size: 14px; color: var(--faint); white-space: nowrap; letter-spacing: 0.02em; }
+  .marquee-track span::before { content: '◆'; margin-right: 44px; color: var(--border-strong); font-size: 9px; vertical-align: 2px; }
 
   .wall {
     height: 540px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
@@ -123,7 +168,7 @@ const cols = [0, 1, 2].map((c) => icons.filter((_, i) => i % 3 === c));
 
   @media (max-width: 900px) {
     .hero-grid { grid-template-columns: 1fr; }
-    .wall { display: none; }
+    .wall-wrap { display: none; }
     .strip { display: block; }
     .stats { grid-template-columns: repeat(2, 1fr); }
     .stat:nth-child(3) { border-left: 0; }
