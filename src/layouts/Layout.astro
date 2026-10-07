@@ -104,7 +104,7 @@ const links = [
       // Count numbers up when they scroll into view (8+, 4M+, ~5,000, $0.0005)
       const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
       const countUp = (el: HTMLElement) => {
-        const m = (el.dataset.count || '').match(/^([^d]*)([d,.]+)(.*)$/);
+        const m = (el.dataset.count || '').match(/^([^\d]*)([\d,.]+)(.*)$/);
         if (!m || reduce) return;
         const [, pre, num, post] = m;
         const target = parseFloat(num.replace(/,/g, ''));
