@@ -1,7 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import { site } from '../data/site.js';
-import { apps, featuredApps, appGroups, totalRatings } from '../data/apps.js';
+import { apps, featuredApps, totalRatings } from '../data/apps.js';
 
 const fmt = (n) => n.toLocaleString('en-US');
 const stars = (r) => Math.round(r || 0);
@@ -49,70 +49,11 @@ const since = Math.min(...apps.map((a) => Number(a.released?.slice(0, 4)) || 999
       ))}
     </div>
 
-    <button class="btn btn-ghost show-all" aria-expanded="false" aria-controls="catalog">
-      See all {apps.length} apps <span class="chev" aria-hidden="true">▾</span>
-    </button>
-
-    <div class="all reveal" id="catalog">
-      <div class="all-head">
-        <h3>The full catalog</h3>
-        <div class="filters" role="tablist" aria-label="Filter apps">
-          {appGroups.map((g, i) => (
-            <button class={`filter ${i === 0 ? 'active' : ''}`} data-filter={g} role="tab" aria-selected={i === 0 ? 'true' : 'false'}>
-              {g}
-            </button>
-          ))}
-        </div>
-      </div>
-      <ul class="grid">
-        {apps.map((a) => (
-          <li data-group={a.group} data-ai={a.ai ? '1' : ''}>
-            <a href={a.url} target="_blank" rel="noopener" class="tile" title={a.gloss || a.name}>
-              <img src={a.icon} alt="" width="52" height="52" loading="lazy" />
-              <span class="tile-text">
-                <span class="tile-name">{a.name}</span>
-                <span class="tile-sub">
-                  {a.platform === 'macOS' ? 'macOS · ' : ''}{a.gloss || a.genre}
-                </span>
-              </span>
-              {a.ratings >= 5 && (
-                <span class="tile-rating"><Icon name="star" size={11} /> {a.rating?.toFixed(1)}</span>
-              )}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <a href={site.appStore} target="_blank" rel="noopener" class="btn btn-ghost store-bottom">
+      <Icon name="apple" size={16} /> See all {apps.length} apps on the App Store
+    </a>
   </div>
 </section>
-
-<script>
-  // Phones start with the catalog closed; the button is hidden on wider screens.
-  const showAll = document.querySelector<HTMLButtonElement>('.show-all');
-  const catalog = document.getElementById('catalog');
-  showAll?.addEventListener('click', () => {
-    const open = catalog?.classList.toggle('open');
-    showAll.setAttribute('aria-expanded', String(open));
-    showAll.firstChild!.textContent = open ? 'Hide the full list ' : `See all ${document.querySelectorAll('.grid li').length} apps `;
-    if (!open) document.getElementById('apps')?.scrollIntoView({ block: 'start' });
-  });
-
-  const buttons = document.querySelectorAll<HTMLButtonElement>('.filter');
-  const items = document.querySelectorAll<HTMLLIElement>('.grid li');
-  buttons.forEach((btn) =>
-    btn.addEventListener('click', () => {
-      const f = btn.dataset.filter;
-      buttons.forEach((b) => {
-        b.classList.toggle('active', b === btn);
-        b.setAttribute('aria-selected', String(b === btn));
-      });
-      items.forEach((li) => {
-        const show = f === 'All' || (f === 'AI' ? li.dataset.ai === '1' : li.dataset.group === f);
-        li.hidden = !show;
-      });
-    })
-  );
-</script>
 
 <style>
   .apps-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; }
@@ -143,39 +84,12 @@ const since = Math.min(...apps.map((a) => Number(a.released?.slice(0, 4)) || 999
   }
   .feat:hover .go { background: var(--text); color: var(--bg); border-color: var(--text); }
 
-  .all { margin-top: 64px; }
-  .all-head { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; }
-  .all-head h3 { font-size: 22px; }
-  .filters { display: flex; gap: 6px; flex-wrap: wrap; }
-  .filter {
-    font: inherit; font-size: 14px; cursor: pointer; padding: 7px 14px; border-radius: 999px;
-    border: 1px solid var(--border); background: var(--surface); color: var(--muted); transition: all 0.2s;
-  }
-  .filter:hover { color: var(--text); border-color: var(--border-strong); }
-  .filter.active { background: var(--text); color: var(--bg); border-color: var(--text); }
-
-  .grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr)); gap: 10px; }
-  .grid li { min-width: 0; }
-  .tile {
-    display: flex; align-items: center; gap: 14px; padding: 12px; border-radius: 14px;
-    border: 1px solid transparent; transition: background 0.2s, border-color 0.2s;
-  }
-  .tile:hover { background: var(--surface); border-color: var(--border); }
-  .tile img { width: 52px; height: 52px; border-radius: 22.5%; border: 1px solid var(--border); flex-shrink: 0; }
-  .tile-text { display: flex; flex-direction: column; min-width: 0; flex: 1; }
-  .tile-name { font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .tile-sub { font-size: 12px; color: var(--faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .tile-rating { display: flex; align-items: center; gap: 3px; font-size: 12px; color: var(--muted); flex-shrink: 0; }
-  .tile-rating :global(svg) { color: var(--star); }
-
   @media (max-width: 900px) {
     .apps-head { flex-direction: column; align-items: flex-start; gap: 0; }
     .store { margin: -24px 0 40px; }
     .featured { grid-template-columns: 1fr 1fr; }
   }
-  .show-all { display: none; }
-  .chev { transition: transform 0.25s; }
-  .show-all[aria-expanded='true'] .chev { transform: rotate(180deg); }
+  .store-bottom { display: none; }
 
   @media (max-width: 640px) {
     .featured { grid-template-columns: 1fr; gap: 12px; }
@@ -184,9 +98,7 @@ const since = Math.min(...apps.map((a) => Number(a.released?.slice(0, 4)) || 999
     .feat-icon { width: 60px; height: 60px; }
     .feat-blurb { font-size: 14px; }
     .feat-foot { padding-top: 12px; }
-    .show-all { display: flex; width: 100%; justify-content: center; margin-top: 16px; cursor: pointer; font: inherit; font-weight: 500; color: var(--text); }
-    .all { display: none; margin-top: 32px; }
-    .all.open { display: block; }
-    .grid { grid-template-columns: minmax(0, 1fr); }
+    .store { display: none; }
+    .store-bottom { display: flex; width: 100%; justify-content: center; margin-top: 16px; }
   }
 </style>

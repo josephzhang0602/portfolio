@@ -23,32 +23,17 @@ const featured = {
   6450915714: 'On-device and cloud Whisper transcription for recordings, audio and video files.',
 };
 
-const groupOf = (genre) =>
-  ({
-    Education: 'Learning',
-    Reference: 'Learning',
-    Productivity: 'Productivity',
-    Finance: 'Productivity',
-    'Graphics & Design': 'Photo & Design',
-    'Photo & Video': 'Photo & Design',
-    Utilities: 'Utilities',
-    'Developer Tools': 'Utilities',
-  })[genre] || 'Lifestyle';
-
 const isAI = (a) => /\bAI\b|AI|GPT|Whisper|ChatPDF|ChatTTS|Flux|SpeechMax|Deep Researcher/.test(a.name);
 
 export const apps = raw.map((a) => ({
   ...a,
   gloss: gloss[a.id] || '',
   blurb: featured[a.id] || a.blurb,
-  group: groupOf(a.genre),
   ai: isAI(a),
 }));
 
 // Display order. Phones show only the first four.
 const featuredOrder = [1672831757, 1626767582, 6749887847, 1388842081, 6450915714, 1120027237];
 export const featuredApps = featuredOrder.map((id) => apps.find((a) => a.id === id));
-
-export const appGroups = ['All', 'AI', 'Learning', 'Productivity', 'Photo & Design', 'Utilities'];
 
 export const totalRatings = apps.reduce((sum, a) => sum + a.ratings, 0);
