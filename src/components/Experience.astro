@@ -1,0 +1,56 @@
+---
+import { experience, education } from '../data/site.js';
+---
+<section id="experience">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Experience</span>
+      <h2>Eight years of <span class="serif grad">production</span> engineering.</h2>
+    </div>
+
+    <ol class="timeline">
+      {experience.map((job) => (
+        <li class="job reveal">
+          <div class="when">
+            <span class="period">{job.period}</span>
+            <span class="place">{job.place}</span>
+          </div>
+          <div class="what">
+            <h3>{job.role}</h3>
+            <span class="company">{job.company}</span>
+            <ul>
+              {job.points.map((p) => <li>{p}</li>)}
+            </ul>
+            <div class="tags">{job.tags.map((t) => <span class="chip">{t}</span>)}</div>
+          </div>
+        </li>
+      ))}
+      <li class="job reveal">
+        <div class="when"><span class="period">{education.period}</span></div>
+        <div class="what">
+          <h3>{education.degree}</h3>
+          <span class="company">{education.school}</span>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<style>
+  .timeline { list-style: none; margin: 0; padding: 0; }
+  .job { display: grid; grid-template-columns: 220px 1fr; gap: 40px; padding: 36px 0; border-top: 1px solid var(--border); }
+  .job:last-child { border-bottom: 1px solid var(--border); }
+  .when { display: flex; flex-direction: column; gap: 4px; }
+  .period { font-family: var(--mono); font-size: 13px; color: var(--text); }
+  .place { font-size: 14px; color: var(--faint); }
+  .what h3 { font-size: 22px; }
+  .company { display: inline-block; margin-top: 6px; color: var(--accent); font-weight: 500; }
+  .what ul { margin: 18px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+  .what ul li { position: relative; padding-left: 20px; color: var(--muted); }
+  .what ul li::before { content: ''; position: absolute; left: 0; top: 0.72em; width: 8px; height: 1px; background: var(--faint); }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 20px; }
+  @media (max-width: 760px) {
+    .job { grid-template-columns: 1fr; gap: 12px; padding: 28px 0; }
+    .when { flex-direction: row; gap: 10px; flex-wrap: wrap; }
+  }
+</style>

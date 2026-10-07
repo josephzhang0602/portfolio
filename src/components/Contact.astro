@@ -1,0 +1,75 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site.js';
+
+const links = [
+  site.linkedin && { label: 'LinkedIn', href: site.linkedin, icon: 'linkedin' },
+  site.github && { label: 'GitHub', href: site.github, icon: 'github' },
+  { label: 'App Store', href: site.appStore, icon: 'apple' },
+  { label: 'CodeMind Jobs', href: site.codemind, icon: 'arrow' },
+  site.resume && { label: 'Resume (PDF)', href: site.resume, icon: 'download' },
+].filter(Boolean);
+---
+<section id="contact" class="contact">
+  <div class="container">
+    <div class="panel reveal">
+      <div class="panel-glow" aria-hidden="true"></div>
+      <span class="eyebrow">Contact</span>
+      <h2>Let's build something <span class="serif">people actually use</span>.</h2>
+      <p>I'm looking for senior full-stack and AI engineering roles. The fastest way to reach me is email.</p>
+      <div class="actions">
+        <a href={`mailto:${site.email}`} class="btn btn-primary big"><Icon name="mail" size={18} /> {site.email}</a>
+        <button class="btn btn-ghost copy" data-email={site.email}>Copy email</button>
+      </div>
+      <div class="links">
+        {links.map((l) => (
+          <a href={l.href} target={l.href.startsWith('http') ? '_blank' : undefined} rel="noopener">
+            <Icon name={l.icon} size={16} /> {l.label}
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelector<HTMLButtonElement>('.copy')?.addEventListener('click', async (e) => {
+    const btn = e.currentTarget as HTMLButtonElement;
+    try {
+      await navigator.clipboard.writeText(btn.dataset.email || '');
+      btn.textContent = 'Copied ✓';
+      setTimeout(() => (btn.textContent = 'Copy email'), 1800);
+    } catch {}
+  });
+</script>
+
+<style>
+  .contact { padding-top: 64px; }
+  .panel {
+    position: relative; overflow: hidden; text-align: center;
+    padding: 88px 32px; border-radius: 28px;
+    background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-lg);
+  }
+  .panel-glow {
+    position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(50% 70% at 20% 0%, var(--glow-1), transparent 70%),
+      radial-gradient(50% 70% at 80% 100%, var(--glow-2), transparent 70%);
+  }
+  .panel > *:not(.panel-glow) { position: relative; z-index: 1; }
+  .panel .eyebrow::before { display: none; }
+  h2 { font-size: clamp(34px, 5vw, 60px); margin: 18px auto 0; max-width: 820px; }
+  h2 .serif { color: var(--accent); }
+  .panel p { color: var(--muted); font-size: 18px; margin: 20px auto 0; max-width: 540px; }
+  .actions { display: flex; gap: 12px; justify-content: center; margin-top: 36px; flex-wrap: wrap; }
+  .big { height: 54px; padding: 0 26px; font-size: 16px; }
+  .copy { height: 54px; cursor: pointer; font: inherit; font-weight: 500; color: var(--text); }
+  .links { display: flex; gap: 8px 24px; justify-content: center; flex-wrap: wrap; margin-top: 36px; }
+  .links a { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); font-size: 15px; transition: color 0.2s; }
+  .links a:hover { color: var(--text); }
+  @media (max-width: 640px) {
+    .panel { padding: 56px 20px; border-radius: 22px; }
+    .big { width: 100%; justify-content: center; font-size: 14px; padding: 0 16px; }
+    .copy { width: 100%; justify-content: center; }
+  }
+</style>

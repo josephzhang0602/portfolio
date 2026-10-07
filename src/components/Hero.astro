@@ -1,0 +1,139 @@
+---
+import Icon from './Icon.astro';
+import { site, stats } from '../data/site.js';
+import { apps } from '../data/apps.js';
+
+// Three columns of icons that scroll forever behind a soft mask.
+const icons = apps.map((a) => ({ src: a.icon, name: a.name }));
+const cols = [0, 1, 2].map((c) => icons.filter((_, i) => i % 3 === c));
+---
+<section class="hero">
+  <div class="glow" aria-hidden="true"></div>
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <div class="status reveal">
+        <span class="pulse"></span>
+        Open to senior full-stack & AI roles<span class="status-extra"> · Remote or {site.location.split(',')[0]}</span>
+      </div>
+      <h1 class="reveal" data-delay="1">
+        I build <span class="serif grad">AI products</span> that ship, from LLM pipelines to apps with 4M+ installs.
+      </h1>
+      <p class="lede reveal" data-delay="2">
+        I'm {site.name}, a senior full-stack and AI engineer with 8+ years across React, Node.js, Python, Swift and
+        cloud infrastructure. I built <a href="#codemind" class="inline-link">CodeMind Jobs</a> on my own and
+        have published <a href="#apps" class="inline-link">38 apps</a> on the App Store.
+      </p>
+      <div class="ctas reveal" data-delay="3">
+        <a href="#codemind" class="btn btn-primary">See my work <Icon name="arrow" size={16} /></a>
+        <a href={`mailto:${site.email}`} class="btn btn-ghost"><Icon name="mail" size={16} /> {site.email}</a>
+      </div>
+    </div>
+
+    <div class="wall reveal" data-delay="2" aria-hidden="true">
+      {cols.map((col, c) => (
+        <div class={`wall-col col-${c}`}>
+          {[...col, ...col].map((i) => (
+            <img src={i.src} alt="" width="96" height="96" loading="eager" decoding="async" />
+          ))}
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="strip" aria-hidden="true">
+    <div class="strip-track">
+      {[...icons, ...icons].map((i) => <img src={i.src} alt="" width="64" height="64" loading="lazy" />)}
+    </div>
+  </div>
+
+  <div class="container">
+    <dl class="stats reveal">
+      {stats.map((s) => (
+        <div class="stat">
+          <dt>{s.value}</dt>
+          <dd>{s.label}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+
+<style>
+  .hero { padding: 72px 0 40px; overflow: hidden; }
+  .glow {
+    position: absolute; inset: -20% -10% auto -10%; height: 760px; pointer-events: none; z-index: -1;
+    background:
+      radial-gradient(40% 50% at 70% 30%, var(--glow-1), transparent 70%),
+      radial-gradient(35% 45% at 30% 60%, var(--glow-2), transparent 70%);
+    filter: blur(20px);
+  }
+  .hero-grid { display: grid; grid-template-columns: 1.25fr 1fr; gap: 56px; align-items: center; }
+  .status {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 6px 14px 6px 10px; border-radius: 999px;
+    background: var(--surface); border: 1px solid var(--border);
+    font-size: 13px; color: var(--muted); box-shadow: var(--shadow);
+  }
+  .status-extra { white-space: nowrap; }
+  @media (max-width: 640px) { .status-extra { display: none; } }
+  .pulse { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 0 0 rgba(34,197,94,.6); animation: pulse 2s infinite; }
+  @keyframes pulse { 70% { box-shadow: 0 0 0 8px rgba(34,197,94,0); } 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); } }
+  h1 { font-size: clamp(40px, 6vw, 72px); margin-top: 26px; font-weight: 600; letter-spacing: -0.035em; line-height: 1.02; }
+  h1 .serif { font-size: 1.08em; padding-right: 0.04em; }
+  .lede { margin-top: 26px; font-size: 19px; color: var(--muted); max-width: 580px; }
+  .inline-link { color: var(--text); border-bottom: 1px solid var(--border-strong); transition: border-color 0.2s; }
+  .inline-link:hover { border-color: var(--accent); }
+  .ctas { display: flex; gap: 12px; margin-top: 36px; flex-wrap: wrap; }
+
+  .wall {
+    height: 540px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+    overflow: hidden; transform: rotate(-6deg) translateX(10px);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
+  }
+  .wall-col { display: flex; flex-direction: column; gap: 18px; animation: up 60s linear infinite; }
+  .wall-col.col-1 { animation-direction: reverse; animation-duration: 70s; margin-top: -60px; }
+  .wall-col.col-2 { animation-duration: 54s; }
+  .wall-col img {
+    width: 100%; aspect-ratio: 1; border-radius: 22.5%;
+    box-shadow: var(--shadow-lg); border: 1px solid var(--border);
+    background: var(--surface);
+  }
+  @keyframes up { to { transform: translateY(-50%); } }
+  .wall:hover .wall-col { animation-play-state: paused; }
+
+  .strip {
+    display: none; margin-top: 48px; overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+  }
+  .strip-track { display: flex; gap: 14px; width: max-content; animation: left 80s linear infinite; }
+  .strip-track img { width: 64px; height: 64px; border-radius: 22.5%; border: 1px solid var(--border); box-shadow: var(--shadow); }
+  @keyframes left { to { transform: translateX(-50%); } }
+
+  .stats {
+    margin: 72px 0 0; display: grid; grid-template-columns: repeat(4, 1fr);
+    border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface);
+    box-shadow: var(--shadow); overflow: hidden;
+  }
+  .stat { padding: 26px 28px; border-left: 1px solid var(--border); }
+  .stat:first-child { border-left: 0; }
+  .stat dt { font-size: clamp(30px, 3.4vw, 42px); font-weight: 600; letter-spacing: -0.03em; line-height: 1; }
+  .stat dd { margin: 10px 0 0; font-size: 14px; color: var(--muted); }
+
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .wall { display: none; }
+    .strip { display: block; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .stat:nth-child(3) { border-left: 0; }
+    .stat:nth-child(n + 3) { border-top: 1px solid var(--border); }
+  }
+  @media (max-width: 640px) {
+    .hero { padding-top: 40px; }
+    .lede { font-size: 17px; }
+    .stat { padding: 20px; }
+    .ctas .btn { width: 100%; justify-content: center; }
+    .ctas .btn-ghost { font-size: 14px; }
+  }
+</style>

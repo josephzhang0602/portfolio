@@ -1,0 +1,31 @@
+---
+import { skills } from '../data/site.js';
+---
+<section id="skills" class="skills">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Toolbox</span>
+      <h2>Comfortable across <span class="serif grad">the whole stack</span>.</h2>
+      <p>From the model call to the App Store release: the tools I reach for most.</p>
+    </div>
+    <div class="groups">
+      {skills.map((s, i) => (
+        <div class="group card spot reveal" data-delay={String(i % 3)}>
+          <h3>{s.group}</h3>
+          <div class="items">{s.items.map((it) => <span class="chip">{it}</span>)}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .skills { background: linear-gradient(to bottom, transparent, var(--bg-2) 30%, var(--bg-2) 80%, transparent); }
+  .groups { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .group { padding: 24px; }
+  .group h3 { font-size: 13px; font-family: var(--mono); font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); }
+  .items { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+  .items .chip { color: var(--text); background: var(--surface-2); }
+  @media (max-width: 900px) { .groups { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 640px) { .groups { grid-template-columns: 1fr; } }
+</style>

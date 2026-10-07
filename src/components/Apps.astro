@@ -1,0 +1,166 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site.js';
+import { apps, featuredApps, appGroups, totalRatings } from '../data/apps.js';
+
+const fmt = (n) => n.toLocaleString('en-US');
+const stars = (r) => Math.round(r || 0);
+const since = Math.min(...apps.map((a) => Number(a.released?.slice(0, 4)) || 9999));
+---
+<section id="apps" class="apps">
+  <div class="container">
+    <div class="apps-head">
+      <div class="section-head reveal">
+        <span class="eyebrow">Independent apps</span>
+        <h2>{apps.length} apps on the App Store, <span class="serif grad">4M+ installs</span>.</h2>
+        <p>
+          Since {since} I have designed, built, launched and monetized my own iOS and macOS apps, from language learning to
+          on-device speech and generative AI tools, with {fmt(totalRatings)}+ ratings so far.
+        </p>
+      </div>
+      <a href={site.appStore} target="_blank" rel="noopener" class="btn btn-ghost reveal store">
+        <Icon name="apple" size={16} /> View on the App Store
+      </a>
+    </div>
+
+    <div class="featured">
+      {featuredApps.map((a, i) => (
+        <a href={a.url} target="_blank" rel="noopener" class="feat card spot reveal" data-delay={String(i % 3)}>
+          <div class="feat-top">
+            <img src={a.icon} alt="" width="72" height="72" loading="lazy" class="feat-icon" />
+            <div class="feat-meta">
+              <h3>{a.name}</h3>
+              {a.gloss && <span class="gloss">{a.gloss}</span>}
+              <span class="genre">{a.genre}{a.ai && <span class="ai-tag">AI</span>}</span>
+            </div>
+          </div>
+          <p class="feat-blurb">{a.blurb}</p>
+          <div class="feat-foot">
+            <span class="rating">
+              <span class="stars" aria-label={`${a.rating} out of 5`}>
+                {[1, 2, 3, 4, 5].map((n) => <span class={n <= stars(a.rating) ? 'on' : ''}><Icon name="star" size={13} /></span>)}
+              </span>
+              <b>{a.rating?.toFixed(1)}</b>
+              <span class="count">{fmt(a.ratings)} ratings</span>
+            </span>
+            <span class="go"><Icon name="arrow" size={16} /></span>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <div class="all reveal">
+      <div class="all-head">
+        <h3>The full catalog</h3>
+        <div class="filters" role="tablist" aria-label="Filter apps">
+          {appGroups.map((g, i) => (
+            <button class={`filter ${i === 0 ? 'active' : ''}`} data-filter={g} role="tab" aria-selected={i === 0 ? 'true' : 'false'}>
+              {g}
+            </button>
+          ))}
+        </div>
+      </div>
+      <ul class="grid">
+        {apps.map((a) => (
+          <li data-group={a.group} data-ai={a.ai ? '1' : ''}>
+            <a href={a.url} target="_blank" rel="noopener" class="tile" title={a.gloss || a.name}>
+              <img src={a.icon} alt="" width="52" height="52" loading="lazy" />
+              <span class="tile-text">
+                <span class="tile-name">{a.name}</span>
+                <span class="tile-sub">
+                  {a.platform === 'macOS' ? 'macOS · ' : ''}{a.gloss || a.genre}
+                </span>
+              </span>
+              {a.ratings >= 5 && (
+                <span class="tile-rating"><Icon name="star" size={11} /> {a.rating?.toFixed(1)}</span>
+              )}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.filter');
+  const items = document.querySelectorAll<HTMLLIElement>('.grid li');
+  buttons.forEach((btn) =>
+    btn.addEventListener('click', () => {
+      const f = btn.dataset.filter;
+      buttons.forEach((b) => {
+        b.classList.toggle('active', b === btn);
+        b.setAttribute('aria-selected', String(b === btn));
+      });
+      items.forEach((li) => {
+        const show = f === 'All' || (f === 'AI' ? li.dataset.ai === '1' : li.dataset.group === f);
+        li.hidden = !show;
+      });
+    })
+  );
+</script>
+
+<style>
+  .apps-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; }
+  .store { margin-bottom: 56px; flex-shrink: 0; }
+
+  .featured { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .feat { padding: 24px; display: flex; flex-direction: column; gap: 18px; transition: transform 0.25s, border-color 0.25s; }
+  .feat:hover { transform: translateY(-3px); border-color: var(--border-strong); }
+  .feat-top { display: flex; gap: 16px; align-items: center; }
+  .feat-icon { width: 72px; height: 72px; border-radius: 22.5%; border: 1px solid var(--border); box-shadow: var(--shadow); flex-shrink: 0; }
+  .feat-meta { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .feat h3 { font-size: 17px; letter-spacing: -0.01em; line-height: 1.25; }
+  .gloss { font-size: 13px; color: var(--muted); line-height: 1.35; }
+  .genre { font-size: 12px; color: var(--faint); display: flex; align-items: center; gap: 6px; }
+  .ai-tag {
+    font-family: var(--mono); font-size: 10px; font-weight: 500; padding: 1px 6px; border-radius: 5px;
+    background: var(--accent-soft); color: var(--accent);
+  }
+  .feat-blurb { color: var(--muted); font-size: 15px; flex: 1; }
+  .feat-foot { display: flex; align-items: center; justify-content: space-between; padding-top: 16px; border-top: 1px solid var(--border); }
+  .rating { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+  .stars { display: flex; gap: 1px; color: var(--border-strong); }
+  .stars .on { color: var(--star); }
+  .count { color: var(--faint); font-size: 13px; }
+  .go {
+    width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center;
+    border: 1px solid var(--border); color: var(--muted); transition: all 0.25s;
+  }
+  .feat:hover .go { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+  .all { margin-top: 64px; }
+  .all-head { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; }
+  .all-head h3 { font-size: 22px; }
+  .filters { display: flex; gap: 6px; flex-wrap: wrap; }
+  .filter {
+    font: inherit; font-size: 14px; cursor: pointer; padding: 7px 14px; border-radius: 999px;
+    border: 1px solid var(--border); background: var(--surface); color: var(--muted); transition: all 0.2s;
+  }
+  .filter:hover { color: var(--text); border-color: var(--border-strong); }
+  .filter.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+  .grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr)); gap: 10px; }
+  .grid li { min-width: 0; }
+  .tile {
+    display: flex; align-items: center; gap: 14px; padding: 12px; border-radius: 14px;
+    border: 1px solid transparent; transition: background 0.2s, border-color 0.2s;
+  }
+  .tile:hover { background: var(--surface); border-color: var(--border); }
+  .tile img { width: 52px; height: 52px; border-radius: 22.5%; border: 1px solid var(--border); flex-shrink: 0; }
+  .tile-text { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+  .tile-name { font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tile-sub { font-size: 12px; color: var(--faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tile-rating { display: flex; align-items: center; gap: 3px; font-size: 12px; color: var(--muted); flex-shrink: 0; }
+  .tile-rating :global(svg) { color: var(--star); }
+
+  @media (max-width: 900px) {
+    .apps-head { flex-direction: column; align-items: flex-start; gap: 0; }
+    .store { margin: -24px 0 40px; }
+    .featured { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px) {
+    .featured { grid-template-columns: 1fr; }
+    .grid { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>
