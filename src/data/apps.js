@@ -45,7 +45,9 @@ export const apps = raw.map((a) => ({
   ai: isAI(a),
 }));
 
-export const featuredApps = Object.keys(featured).map((id) => apps.find((a) => a.id === Number(id)));
+// Display order. Phones show only the first four.
+const featuredOrder = [1672831757, 1626767582, 6749887847, 1388842081, 6450915714, 1120027237];
+export const featuredApps = featuredOrder.map((id) => apps.find((a) => a.id === id));
 
 export const appGroups = ['All', 'AI', 'Learning', 'Productivity', 'Photo & Design', 'Utilities'];
 
