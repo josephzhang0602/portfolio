@@ -12,13 +12,13 @@ export const site = {
   // Put the PDF at public/resume.pdf, then set this to '/resume.pdf'.
   resume: '',
   description:
-    'Senior Full-Stack / AI Engineer with 8+ years shipping web, mobile, backend and AI products. Builder of CodeMind Jobs and 38 apps on the App Store with 4M+ installs.',
+    'Senior Full-Stack / AI Engineer with 8+ years shipping web, mobile, backend and AI products. Builder of CodeMind Jobs and 30+ apps on the App Store with 4M+ installs.',
 };
 
 export const stats = [
   { value: '8+', label: 'years shipping production software' },
   { value: '4M+', label: 'installs across my App Store apps' },
-  { value: '38', label: 'iOS & macOS apps published' },
+  { value: '30+', label: 'iOS & macOS apps published' },
   { value: '~5k', label: 'jobs/day processed by CodeMind' },
 ];
 
@@ -75,7 +75,7 @@ export const skills = [
   },
   {
     group: 'Backend',
-    items: ['Node.js', 'Express', 'Python', 'FastAPI', 'Django', 'REST', 'GraphQL', 'Background jobs', 'Playwright scraping'],
+    items: ['Node.js', 'Express', 'Python', 'FastAPI', 'Django', 'REST', 'GraphQL', 'Background jobs'],
   },
   {
     group: 'Mobile',

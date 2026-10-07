@@ -3,7 +3,7 @@ import Icon from './Icon.astro';
 import { site, stats } from '../data/site.js';
 import { apps, totalRatings } from '../data/apps.js';
 
-const tech = ['OpenAI', 'LangChain', 'LangGraph', 'Hugging Face', 'PyTorch', 'pgvector', 'React', 'Next.js', 'TypeScript', 'Node.js', 'FastAPI', 'Swift', 'SwiftUI', 'PostgreSQL', 'MongoDB', 'Redis', 'AWS', 'Cloudflare', 'Playwright', 'Stripe'];
+const tech = ['OpenAI', 'LangChain', 'LangGraph', 'Hugging Face', 'PyTorch', 'pgvector', 'React', 'Next.js', 'TypeScript', 'Node.js', 'FastAPI', 'Swift', 'SwiftUI', 'PostgreSQL', 'MongoDB', 'Redis', 'AWS', 'Cloudflare', 'Stripe'];
 
 // Three columns of icons that scroll forever behind a soft mask.
 const icons = apps.map((a) => ({ src: a.icon, name: a.name }));
@@ -24,7 +24,7 @@ const cols = [0, 1, 2].map((c) => icons.filter((_, i) => i % 3 === c));
       <p class="lede reveal" data-delay="2">
         I'm {site.name}, a senior full-stack and AI engineer with 8+ years across React, Node.js, Python, Swift and
         cloud infrastructure. I built <a href="#codemind" class="inline-link">CodeMind Jobs</a> on my own and
-        have published <a href="#apps" class="inline-link">38 apps</a> on the App Store.
+        have published <a href="#apps" class="inline-link">30+ apps</a> on the App Store.
       </p>
       <div class="ctas reveal" data-delay="3">
         <a href="#ai" class="btn btn-primary">See my AI work <Icon name="arrow" size={16} /></a>
@@ -34,7 +34,7 @@ const cols = [0, 1, 2].map((c) => icons.filter((_, i) => i % 3 === c));
 
     <div class="wall-wrap reveal" data-delay="2" aria-hidden="true">
     <div class="float f1"><span class="f-ic ok"><Icon name="check" size={14} /></span><span><b>schema valid</b><small>gpt-5-nano · $0.0005/job</small></span></div>
-    <div class="float f2"><span class="f-ic star"><Icon name="star" size={14} /></span><span><b>{totalRatings.toLocaleString('en-US')}+ ratings</b><small>across 38 App Store apps</small></span></div>
+    <div class="float f2"><span class="f-ic star"><Icon name="star" size={14} /></span><span><b>{totalRatings.toLocaleString('en-US')}+ ratings</b><small>across 30+ App Store apps</small></span></div>
     <div class="wall">
       {cols.map((col, c) => (
         <div class={`wall-col col-${c}`}>

@@ -12,7 +12,7 @@ const since = Math.min(...apps.map((a) => Number(a.released?.slice(0, 4)) || 999
     <div class="apps-head">
       <div class="section-head reveal">
         <span class="eyebrow">03 · Independent apps</span>
-        <h2>{apps.length} apps on the App Store, <span class="serif grad">4M+ installs</span>.</h2>
+        <h2>30+ apps on the App Store, <span class="serif grad">4M+ installs</span>.</h2>
         <p>
           Since {since} I have designed, built, launched and monetized my own iOS and macOS apps, from language learning to
           on-device speech and generative AI tools, with {fmt(totalRatings)}+ ratings so far.
@@ -50,7 +50,7 @@ const since = Math.min(...apps.map((a) => Number(a.released?.slice(0, 4)) || 999
     </div>
 
     <a href={site.appStore} target="_blank" rel="noopener" class="btn btn-ghost store-bottom">
-      <Icon name="apple" size={16} /> See all {apps.length} apps on the App Store
+      <Icon name="apple" size={16} /> See all my apps on the App Store
     </a>
   </div>
 </section>

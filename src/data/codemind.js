@@ -50,5 +50,5 @@ export const codemind = {
     { icon: 'doc', title: 'Tailor', note: 'Resume rewritten for the role, .docx or PDF' },
     { icon: 'cursor', title: 'Apply', note: 'Extension fills the application form' },
   ],
-  stack: ['React', 'Vite', 'Tailwind', 'Node.js', 'Express', 'MongoDB Atlas', 'OpenAI', 'Playwright', 'Apify', 'Stripe', 'Render', 'Cloudflare R2', 'Sentry', 'MCP'],
+  stack: ['React', 'Vite', 'Tailwind', 'Node.js', 'Express', 'MongoDB Atlas', 'OpenAI', 'Stripe', 'Render', 'Cloudflare R2', 'Sentry', 'MCP'],
 };

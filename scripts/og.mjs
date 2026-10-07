@@ -40,7 +40,7 @@ const html = `<!doctype html><html><head>
     <h1>Joseph Zhang</h1>
     <p class="tag">I build <span class="serif">AI products</span> that ship, from LLM pipelines to apps with 4M+ installs.</p>
   </div>
-  <div class="foot"><span class="chip">CodeMind Jobs</span><span class="chip">38 App Store apps</span><span class="chip">8+ years</span></div>
+  <div class="foot"><span class="chip">CodeMind Jobs</span><span class="chip">30+ App Store apps</span><span class="chip">8+ years</span></div>
 </body></html>`;
 
 const browser = await chromium.launch();
