@@ -43,12 +43,12 @@ export const codemind = {
     },
   ],
   pipeline: [
-    { icon: 'search', title: 'Collect', note: '40+ sources · ATS APIs & job boards' },
-    { icon: 'layers', title: 'Dedupe', note: 'multi-city merge · direct employer link' },
-    { icon: 'spark', title: 'Enrich', note: 'nano batch → mini · strict schema' },
-    { icon: 'filter', title: 'Score', note: 'verdicts + verified quotes · code weights' },
-    { icon: 'doc', title: 'Tailor', note: '3 modes · traced bullets · .docx / PDF' },
-    { icon: 'cursor', title: 'Apply', note: 'extension fills 16+ ATS forms' },
+    { icon: 'search', title: 'Collect', note: '40+ sources: ATS APIs and job boards' },
+    { icon: 'layers', title: 'Dedupe', note: 'Reposts and multi-city copies merged into one job' },
+    { icon: 'spark', title: 'Enrich', note: 'AI extracts skills, salary, seniority and visa' },
+    { icon: 'filter', title: 'Score', note: 'Resume match, every claim checked in code' },
+    { icon: 'doc', title: 'Tailor', note: 'Resume rewritten for the role, .docx or PDF' },
+    { icon: 'cursor', title: 'Apply', note: 'Extension fills the application form' },
   ],
   stack: ['React', 'Vite', 'Tailwind', 'Node.js', 'Express', 'MongoDB Atlas', 'OpenAI', 'Playwright', 'Apify', 'Stripe', 'Render', 'Cloudflare R2', 'Sentry', 'MCP'],
 };

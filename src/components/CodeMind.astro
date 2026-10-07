@@ -32,11 +32,16 @@ import { codemind as cm } from '../data/codemind.js';
       <span class="flow-label">How a job moves through CodeMind</span>
       <ol class="flow-steps">
         {cm.pipeline.map((s, i) => (
-          <li class="flow-step" style={`--i:${i}`}>
-            <span class="flow-icon"><Icon name={s.icon} size={18} /></span>
-            <span class="flow-num">{String(i + 1).padStart(2, '0')}</span>
-            <b>{s.title}</b>
-            <small>{s.note}</small>
+          <li class="flow-step">
+            <div class="flow-top">
+              <span class="flow-icon"><Icon name={s.icon} size={18} /></span>
+              <span class="flow-num">{String(i + 1).padStart(2, '0')}</span>
+            </div>
+            <div class="flow-text">
+              <b>{s.title}</b>
+              <small>{s.note}</small>
+            </div>
+            {i < cm.pipeline.length - 1 && <span class="flow-arrow" aria-hidden="true"><Icon name="arrow" size={12} /></span>}
           </li>
         ))}
       </ol>
@@ -101,32 +106,31 @@ import { codemind as cm } from '../data/codemind.js';
   }
   .phone img { width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 27px; }
 
-  .flow { margin-top: 56px; padding: 26px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface); box-shadow: var(--shadow); }
+  .flow { margin-top: 56px; }
   .flow-label { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); }
-  .flow-steps { list-style: none; margin: 22px 0 0; padding: 0; display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; position: relative; }
-  /* The rail behind the steps, with a light pulse travelling along it */
-  .flow-steps::before {
-    content: ''; position: absolute; left: 22px; right: 22px; top: 21px; height: 2px;
-    background: linear-gradient(90deg, var(--border-strong) 0 100%);
+  .flow-steps { list-style: none; margin: 18px 0 0; padding: 0; display: grid; grid-template-columns: repeat(6, 1fr); gap: 22px; }
+  .flow-step {
+    position: relative; display: flex; flex-direction: column; gap: 16px; padding: 18px;
+    border-radius: 16px; border: 1px solid var(--border); background: var(--surface); box-shadow: var(--shadow);
+    transition: transform 0.25s, border-color 0.25s;
   }
-  .flow-steps::after {
-    content: ''; position: absolute; top: 20px; left: 22px; width: 90px; height: 4px; border-radius: 2px;
-    background: linear-gradient(90deg, transparent, var(--accent), var(--accent-2), transparent);
-    animation: travel 3.6s linear infinite;
-  }
-  @keyframes travel { from { transform: translateX(-90px); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } to { transform: translateX(calc(100cqw - 44px)); opacity: 0; } }
-  .flow-steps { container-type: inline-size; }
-  .flow-step { position: relative; display: flex; flex-direction: column; gap: 4px; padding-right: 14px; }
+  .flow-step:hover { transform: translateY(-3px); border-color: var(--accent); }
+  .flow-top { display: flex; align-items: center; justify-content: space-between; }
   .flow-icon {
-    position: relative; z-index: 1; width: 44px; height: 44px; border-radius: 13px; display: grid; place-items: center;
-    background: var(--surface); border: 1px solid var(--border-strong); color: var(--accent); margin-bottom: 10px;
-    box-shadow: 0 0 0 6px var(--surface);
-    animation: glowstep 3.6s linear infinite; animation-delay: calc(var(--i) * 0.55s);
+    width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; color: #fff;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    box-shadow: 0 6px 16px -6px var(--accent);
   }
-  @keyframes glowstep { 0%, 14%, 100% { border-color: var(--border-strong); } 6% { border-color: var(--accent); box-shadow: 0 0 0 6px var(--surface), 0 0 18px var(--accent-soft); } }
-  .flow-num { font-family: var(--mono); font-size: 11px; color: var(--faint); }
+  .flow-num { font-family: var(--mono); font-size: 13px; color: var(--faint); }
+  .flow-text { display: flex; flex-direction: column; gap: 6px; }
   .flow-step b { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; }
-  .flow-step small { font-size: 13px; color: var(--muted); line-height: 1.45; }
+  .flow-step small { font-size: 13.5px; color: var(--muted); line-height: 1.5; }
+  .flow-arrow {
+    position: absolute; z-index: 2; right: -20px; top: 50%; transform: translateY(-50%) rotate(45deg);
+    width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center;
+    background: var(--bg-2); border: 1px solid var(--border-strong); color: var(--accent);
+  }
+  .flow-arrow :global(svg) { width: 10px; height: 10px; }
 
   .metrics { margin: 56px 0 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
   .metric { padding: 4px 0 4px 20px; border-left: 2px solid var(--accent); }
@@ -146,17 +150,19 @@ import { codemind as cm } from '../data/codemind.js';
   .stack-label { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--faint); margin-right: 8px; }
 
   @media (max-width: 900px) {
-    .flow-steps { grid-template-columns: repeat(3, 1fr); row-gap: 26px; }
-    .flow-steps::before, .flow-steps::after { display: none; }
-    .flow-icon { animation: none; }
+    .flow-steps { grid-template-columns: repeat(3, 1fr); }
+    .flow-step:nth-child(3n) .flow-arrow { display: none; }
     .cm-head { flex-direction: column; align-items: flex-start; gap: 0; }
     .live { margin: -24px 0 40px; }
     .highlights { grid-template-columns: 1fr 1fr; }
     .metrics { grid-template-columns: 1fr 1fr; row-gap: 28px; }
   }
   @media (max-width: 640px) {
-    .flow { padding: 20px; }
-    .flow-steps { grid-template-columns: 1fr 1fr; }
+    .flow-steps { grid-template-columns: 1fr; gap: 14px; }
+    .flow-step { flex-direction: row; align-items: center; gap: 14px; padding: 14px 16px; }
+    .flow-top { flex-direction: column; gap: 6px; }
+    .flow-num { font-size: 11px; }
+    .flow-steps .flow-step:not(:last-child) .flow-arrow { display: grid; right: auto; left: 34px; top: auto; bottom: -16px; transform: rotate(135deg); }
     .showcase { padding-right: 0; padding-bottom: 0; }
     .phone { display: none; }
     .highlights { grid-template-columns: 1fr; }
