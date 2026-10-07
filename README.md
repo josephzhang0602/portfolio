@@ -22,12 +22,12 @@ npm run dev      # http://localhost:4321
 npm run build    # static output in dist/
 ```
 
-## Deploy on Cloudflare Pages
+## Deploy (Cloudflare Worker with static assets)
 
-1. Push this folder to a new GitHub repo.
-2. Cloudflare dashboard › Workers & Pages › Create › Pages › Connect to Git, then pick the repo.
-3. Framework preset **Astro**, build command `npm run build`, output directory `dist`.
-4. After the first deploy: Custom domains › add `josephz.dev` and `www.josephz.dev`.
+1. The Worker is named `portfolio` and is configured by `wrangler.jsonc`. It is connected to github.com/josephzhang0602/portfolio.
+2. Workers Builds runs on every push to `main`: build `npm run build`, then deploy `npx wrangler deploy`.
+3. Unknown paths get `dist/404.html` (`not_found_handling` in `wrangler.jsonc`).
+4. Domains are set on the Worker's Domains tab: `josephz.dev` and `www.josephz.dev`.
 5. If the domain ever changes, update `site.url` in `src/data/site.js` and `site` in `astro.config.mjs`, then run `node scripts/og.mjs` if the share image text changes.
 
 Every push to `main` redeploys.
