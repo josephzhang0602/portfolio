@@ -42,7 +42,7 @@ const links = [
     <header class="nav">
       <div class="container nav-inner">
         <a href="/" class="logo" aria-label={site.name}>
-          <span class="logo-mark">JZ</span>
+          <img src="/me-avatar.jpg" alt="" width="36" height="36" class="logo-photo" />
           <span class="logo-name">{site.name}</span>
         </a>
         <nav class="nav-links">
@@ -54,6 +54,9 @@ const links = [
           )}
           {site.linkedin && (
             <a href={site.linkedin} target="_blank" rel="noopener" class="theme-toggle" aria-label="LinkedIn"><Icon name="linkedin" size={16} /></a>
+          )}
+          {site.resume && (
+            <a href={site.resume} target="_blank" rel="noopener" class="theme-toggle" aria-label="Resume (PDF)" title="Resume (PDF)"><Icon name="download" size={17} /></a>
           )}
           <button class="theme-toggle" id="theme-toggle" aria-label="Toggle color theme">
             <span class="i-sun"><Icon name="sun" size={18} /></span>
@@ -152,11 +155,7 @@ const links = [
       .nav.scrolled { border-bottom-color: var(--border); }
       .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 68px; gap: 16px; }
       .logo { display: flex; align-items: center; gap: 10px; font-weight: 600; letter-spacing: -0.01em; }
-      .logo-mark {
-        width: 32px; height: 32px; border-radius: 10px; display: grid; place-items: center;
-        font-size: 12px; font-weight: 700; color: #fff; letter-spacing: 0;
-        background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      }
+      .logo-photo { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 2px var(--surface), 0 0 0 3px var(--border-strong); }
       .nav-links { display: flex; gap: 4px; }
       .nav-links a { padding: 8px 14px; border-radius: 999px; font-size: 14px; color: var(--muted); transition: color 0.2s, background 0.2s; }
       .nav-links a:hover { color: var(--text); background: var(--surface-2); }
