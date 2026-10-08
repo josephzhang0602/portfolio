@@ -94,7 +94,7 @@ export const skills = [
   },
   {
     group: 'Mobile',
-    logos: [['iOS', 'apple'], ['Xcode', 'xcode'], ['React Native', 'react'], ['Android', 'android']],
+    logos: [['iOS', 'apple'], ['Xcode', 'xcode'], ['React Native', 'react'], ['Flutter', 'flutter'], ['Android', 'android']],
     more: ['SwiftUI', 'UIKit', 'Jetpack Compose', 'In-app purchases', 'App Store Connect'],
   },
   {
