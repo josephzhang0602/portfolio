@@ -79,7 +79,7 @@ export const skills = [
   },
   {
     group: 'Languages',
-    logos: [['Python', 'python'], ['TypeScript', 'typescript'], ['JavaScript', 'javascript'], ['Java', 'java'], ['C#', 'csharp'], ['Swift', 'swift'], ['Kotlin', 'kotlin']],
+    logos: [['Python', 'python'], ['TypeScript', 'typescript'], ['JavaScript', 'javascript'], ['Java', 'java'], ['C#', 'csharp'], ['Swift', 'swift'], ['Kotlin', 'kotlin'], ['Dart', 'dart']],
     more: [],
   },
   {
