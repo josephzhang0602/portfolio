@@ -3,7 +3,7 @@ export const site = {
   name: 'Joseph Zhang',
   role: 'Senior Full-Stack / AI Engineer',
   location: 'Little Rock, Arkansas',
-  email: 'jzhangdev97@outlook.com',
+  email: 'joseph.zhang.dev@outlook.com',
   url: 'https://josephz.dev',
   appStore: 'https://apps.apple.com/us/developer/jiafu-zhang/id717622923',
   codemind: 'https://jobs.codemind.site',
