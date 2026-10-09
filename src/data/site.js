@@ -9,8 +9,8 @@ export const site = {
   codemind: 'https://jobs.codemind.site',
   linkedin: '',
   github: 'https://github.com/josephzhang0602',
-  // Put the PDF at public/resume.pdf, then set this to '/resume.pdf'.
-  resume: '/resume.pdf',
+  // Put the PDF at public/, then set this to its path.
+  resume: '/Joseph_Full_Stack_Resume.pdf',
   description:
     'Senior Full-Stack / AI Engineer with 8+ years shipping web, mobile, backend and AI products. Builder of CodeMind Jobs and 30+ apps on the App Store with 4M+ installs.',
 };
