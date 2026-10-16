@@ -88,6 +88,47 @@ const links = [
         try { localStorage.setItem('theme', root.dataset.theme); } catch {}
       });
 
+      // Smooth scrolling. Browsers drop it when the OS turns animations off, so the wheel and the
+      // in-page links ease here instead. Pinch zoom, scrollable boxes, keys and the scrollbar stay native.
+      let target = scrollY, current = scrollY, frame = 0;
+      const maxY = () => document.documentElement.scrollHeight - innerHeight;
+      const tick = () => {
+        current += (target - current) * 0.12;
+        if (Math.abs(target - current) < 0.5) current = target;
+        scrollTo({ top: current, behavior: 'instant' });
+        frame = current === target ? 0 : requestAnimationFrame(tick);
+      };
+      const glideTo = (y: number) => {
+        target = Math.max(0, Math.min(maxY(), y));
+        if (!frame) { current = scrollY; frame = requestAnimationFrame(tick); }
+      };
+      const scrollsItself = (el: Element | null, dy: number) => {
+        for (; el && el !== document.body; el = el.parentElement) {
+          const s = getComputedStyle(el);
+          if (!/(auto|scroll)/.test(s.overflowY) || el.scrollHeight <= el.clientHeight) continue;
+          if (dy < 0 ? el.scrollTop > 0 : el.scrollTop + el.clientHeight < el.scrollHeight - 1) return true;
+        }
+        return false;
+      };
+      addEventListener('wheel', (e) => {
+        if (e.ctrlKey || e.shiftKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+        if (scrollsItself(e.target as Element, e.deltaY)) return;
+        e.preventDefault();
+        const dy = e.deltaMode === 1 ? e.deltaY * 40 : e.deltaMode === 2 ? e.deltaY * innerHeight : e.deltaY;
+        glideTo((frame ? target : scrollY) + dy);
+      }, { passive: false });
+      // Keys, the scrollbar and find-in-page move the page natively; follow them.
+      addEventListener('scroll', () => { if (!frame) target = current = scrollY; }, { passive: true });
+      document.addEventListener('click', (e) => {
+        const a = (e.target as Element).closest?.('a[href*="#"]') as HTMLAnchorElement | null;
+        if (!a || a.pathname !== location.pathname || a.origin !== location.origin || e.metaKey || e.ctrlKey) return;
+        const el = a.hash ? document.getElementById(decodeURIComponent(a.hash.slice(1))) : null;
+        if (!el) return;
+        e.preventDefault();
+        history.pushState(null, '', a.hash);
+        glideTo(el.getBoundingClientRect().top + scrollY - 84);
+      });
+
       // Nav shadow on scroll
       const nav = document.querySelector('.nav');
       const onScroll = () => nav?.classList.toggle('scrolled', scrollY > 8);

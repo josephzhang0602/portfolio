@@ -68,7 +68,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 84px; -webkit-text-size-adjust: 100%; }
+html { scroll-padding-top: 84px; -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
   background: var(--bg);
@@ -153,8 +153,8 @@ section { padding: 112px 0; position: relative; }
 .reveal[data-delay='2'] { transition-delay: 0.16s; }
 .reveal[data-delay='3'] { transition-delay: 0.24s; }
 
+/* Windows reports reduced motion whenever "Animation effects" is off, which is common on work
+   machines, so the slow background loops and smooth scrolling stay; only the slide-ins go. */
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
-  *, *::before, *::after { animation: none !important; }
 }
