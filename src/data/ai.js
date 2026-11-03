@@ -43,9 +43,9 @@ export const aiWork = {
     apps: pick([6749887847, 6760249222, 6747907290, 6746754418, 6745123628, 6745967608, 6746832895]),
   },
   nlp: {
-    title: 'NLP & embeddings at scale',
-    body: 'At First Orion: transformer embeddings and semantic matching for entity normalization, noisy-data matching and intent classification, feeding real-time scoring for caller identity and spam detection.',
-    where: 'First Orion · telecom scale',
-    tags: ['Hugging Face', 'Embeddings', 'Semantic matching', 'Real-time scoring'],
+    title: 'Embeddings & semantic search',
+    body: 'Embeddings, semantic search and retrieval behind document Q&A, so answers come from the right passages of what a user uploaded.',
+    where: 'ChatPDF',
+    tags: ['Embeddings', 'Semantic search', 'Retrieval', 'LLM APIs'],
   },
 };

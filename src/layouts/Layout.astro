@@ -142,7 +142,7 @@ const links = [
       );
       document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 
-      // Count numbers up when they scroll into view (8+, 4M+, ~5,000, $0.0005)
+      // Count numbers up when they scroll into view (9+, 4M+, ~5,000, $0.0005)
       const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
       const countUp = (el: HTMLElement) => {
         const m = (el.dataset.count || '').match(/^([^\d]*)([\d,.]+)(.*)$/);

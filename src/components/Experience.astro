@@ -6,13 +6,15 @@ import { experience, education } from '../data/site.js';
   <div class="container">
     <div class="section-head reveal">
       <span class="eyebrow">05 · Experience</span>
-      <h2>Eight years of <span class="serif grad">production</span> engineering.</h2>
+      <h2>Nine years of <span class="serif grad">production</span> engineering.</h2>
     </div>
 
     <ol class="timeline">
-      {experience.map((job, i) => (
+      {experience.map((job) => {
+        const current = job.period.endsWith('Present');
+        return (
         <li class="job reveal">
-          <span class={`node ${i === 0 ? 'now' : ''}`} aria-hidden="true"></span>
+          <span class={`node ${current ? 'now' : ''}`} aria-hidden="true"></span>
           <div class="job-card card spot">
             <header>
               <span class="mark">{job.mark}</span>
@@ -20,7 +22,7 @@ import { experience, education } from '../data/site.js';
                 <h3>{job.role}</h3>
                 <span class="company">{job.company} <span class="place">· {job.place}</span></span>
               </div>
-              <span class={`period ${i === 0 ? 'current' : ''}`}>{i === 0 && <i></i>}{job.period}</span>
+              <span class={`period ${current ? 'current' : ''}`}>{current && <i></i>}{job.period}</span>
             </header>
             <p class="highlight"><Icon name="spark" size={15} /> {job.highlight}</p>
             <ul>
@@ -29,12 +31,13 @@ import { experience, education } from '../data/site.js';
             <div class="tags">{job.tags.map((t) => <span class="chip">{t}</span>)}</div>
           </div>
         </li>
-      ))}
+        );
+      })}
       <li class="job reveal">
         <span class="node edu" aria-hidden="true"></span>
         <div class="job-card card edu-card">
           <header>
-            <span class="mark">UA</span>
+            <span class="mark">{education.mark}</span>
             <div class="who">
               <h3>{education.degree}</h3>
               <span class="company">{education.school}</span>
