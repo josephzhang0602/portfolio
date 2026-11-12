@@ -1,6 +1,6 @@
 // Renders public/og.png (1200x630), the preview image for shared links.
 // Run after fetch-apps if the icons change: node scripts/og.mjs
-import { chromium } from '../../job-tracker/server/node_modules/playwright/index.mjs';
+import { chromium } from '../../job-tracker/apps/api/node_modules/playwright/index.mjs';
 import { readFile } from 'node:fs/promises';
 
 const root = new URL('..', import.meta.url);
@@ -8,7 +8,6 @@ const apps = JSON.parse(await readFile(new URL('src/data/apps.json', root), 'utf
 const icon = async (id) =>
   'data:image/png;base64,' + (await readFile(new URL(`public/apps/${id}.png`, root))).toString('base64');
 const icons = await Promise.all(apps.map((a) => icon(a.id)));
-const photo = 'data:image/jpeg;base64,' + (await readFile(new URL('public/me-avatar.jpg', root))).toString('base64');
 
 const html = `<!doctype html><html><head>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&family=Instrument+Serif:ital@1&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
@@ -37,7 +36,6 @@ const html = `<!doctype html><html><head>
   <div class="glow"></div>
   <div class="wall">${[...icons, ...icons.slice(0, 3)].map((s) => `<img src="${s}">`).join('')}</div>
   <div class="copy">
-    <img class="photo" src="${photo}">
     <div class="eyebrow">Senior Full-Stack / AI Engineer</div>
     <h1>Joseph Zhang</h1>
     <p class="tag">I build <span class="serif">AI products</span> that ship, from LLM pipelines to apps with 4M+ installs.</p>
